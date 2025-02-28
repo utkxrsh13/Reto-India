@@ -1,0 +1,14 @@
+.users{
+    overflow: auto;
+    padding-top: 4rem;
+}
+.users::-webkit-scrollbar{
+    display:none;
+}
+
+.Users{
+    height: 90%;
+}
+.Users::-webkit-scrollbar{
+    display: none;
+}

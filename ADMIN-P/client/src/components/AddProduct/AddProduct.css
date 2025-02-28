@@ -1,0 +1,15 @@
+.form{
+    background-color: transparent;
+    padding-top: 4rem;
+}
+
+.form::-webkit-scrollbar{
+    display:none;
+}
+
+.imgL{
+    width: 4rem!important;
+    height: 4rem!important;
+    border-radius: 50%!important;
+    color:#2d4059!important;
+}

@@ -1,0 +1,8 @@
+.carousel{
+    height:98%;
+    width: 98%;
+}
+
+.carousel::-webkit-scrollbar{
+    display: none;
+}

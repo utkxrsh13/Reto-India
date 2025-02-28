@@ -1,0 +1,11 @@
+.contact{
+    padding-top: 4rem;
+}
+
+.Contacts{
+    height: 90%;
+}
+
+.Contacts::-webkit-scrollbar{
+    display: none;
+}

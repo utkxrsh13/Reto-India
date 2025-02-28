@@ -1,0 +1,12 @@
+.customer{
+    padding-top: 4rem;
+    height: 80%;
+   
+}
+.Customers{
+    height: 60%!important;
+}
+
+.Customers::-webkit-scrollbar{
+    display: none!important;
+}

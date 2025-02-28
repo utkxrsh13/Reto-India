@@ -1,0 +1,15 @@
+.orders{
+    overflow: hidden;
+    height: 92%;
+    padding-top: 4rem;
+}
+
+.Orders{
+    height: 92%;
+    overflow: auto!important;
+}
+.Orders::-webkit-scrollbar{
+    display: none;
+}
+
+
