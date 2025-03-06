@@ -65,6 +65,7 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + path.extname(file.originalname));
   }
 });
+
 const upload = multer({ storage: storage });
 app.get('/Product', async (req, res) => {
   try {
