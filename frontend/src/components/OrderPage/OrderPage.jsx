@@ -132,7 +132,7 @@ const OrderPage = () => {
                         <td className="md:px-4 py-4 px-0 flex items-center max-md:w-full max-md:justify-between">
                           <div className="flex items-center">
                             <img
-                              src={`http://localhost:3000${cartItem.image1}`}
+                              src={`https://reto-india-admin-backend.onrender.com${cartItem.image1}`}
                               alt={cartItem.title}
                               className="w-16 h-16 object-cover rounded-md mr-4"
                             />
