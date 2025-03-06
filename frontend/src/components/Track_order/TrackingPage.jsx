@@ -3,6 +3,7 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import XIcon from "@mui/icons-material/X";
 import { useState } from "react";
+import { NavLink } from "react-router";
 import "./TrackingPage.css";
 
 export default function TrackingPage() {
@@ -20,7 +21,7 @@ export default function TrackingPage() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/track-order?orderId=${orderId}&email=${email}`
+        `https://reto-india-backend.onrender.com/api/track-order?orderId=${orderId}&email=${email}`
       );
 
       const data = await response.json();
@@ -34,7 +35,7 @@ export default function TrackingPage() {
         setTrackingData(null);
         setShowTracking(false);
       }
-    } catch (err) {
+    } catch (error) {
       setError("Something went wrong. Please try again.");
       setTrackingData(null);
       setShowTracking(false);
@@ -112,20 +113,18 @@ export default function TrackingPage() {
         </div>
       </div>
       <div className="social-links">
-      
-        <a href="#" target="_blank" rel="noopener noreferrer">
+        <NavLink to="https://x.com/RetoINDIA" target="_blank" rel="noopener noreferrer">
           <XIcon sx={{ fontSize: "2rem" }} />
-        </a>
-        <a href="#" target="_blank" rel="noopener noreferrer">
+        </NavLink>
+        <NavLink to="https://www.facebook.com/share/1FAkbBiRUA/" target="_blank" rel="noopener noreferrer">
           <FacebookIcon sx={{ fontSize: "2rem" }} />
-        </a>
-        <a href="#" target="_blank" rel="noopener noreferrer">
+        </NavLink>
+        <NavLink to="https://www.instagram.com/retoindia.official/?hl=en" target="_blank" rel="noopener noreferrer">
           <InstagramIcon sx={{ fontSize: "2rem" }} />
-        </a>
-        <a href="#" target="_blank" rel="noopener noreferrer">
+        </NavLink>
+        <NavLink to="https://www.linkedin.com/company/reto-india/?viewAsMember=true" target="_blank" rel="noopener noreferrer">
           <LinkedInIcon sx={{ fontSize: "2rem" }} />
-        </a>
-   
+        </NavLink>
       </div>
     </div>
   );

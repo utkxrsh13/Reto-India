@@ -16,7 +16,7 @@ const ProductPage = () => {
   const [products, setProducts] = useState([]);
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/Product');
+      const response = await axios.get('https://reto-india-admin-backend.onrender.com/Product');
       setProducts(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -94,7 +94,7 @@ const ProductPage = () => {
                   {/* <NavLink to="/product/productView"> */}
 
                   <img
-                    src={`http://localhost:3000${product.image1}`}
+                    src={`https://reto-india-admin-backend.onrender.com${product.image1}`}
                     alt={product.title}
                     className="h-full w-full mx-auto object-cover rounded-xl group-hover:scale-105 duration-300 ease-linear"
                     style={{height: "450px",width: "100%"}}
