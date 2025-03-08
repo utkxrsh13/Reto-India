@@ -3,12 +3,15 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { IconButton } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import { signUpUser } from "../../API/api";
+import { useAuth } from "../../Context/AuthContext";
 import "./Signup.css";
 
 const Signup = () => {
+  const {login} = useAuth();
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     fullName: "",
     email: "",
@@ -31,8 +34,21 @@ const Signup = () => {
     mutationFn: (user) => signUpUser(user),
     onSuccess: (response) => {
       console.log("Signup successful - onSuccess triggered", response);
+
       setUser({ fullName: "", email: "", password: "", phoneNo: "" });
+      if (!response.token) {
+        console.error("Signup response missing required fields:", response);
+        toast.error("Signup failed. Please try again.", { position: "top-center" });
+        return;
+      }
+
       toast.success("Signup successful", { position: "top-center" });
+      
+      login(response.token, { fullName: user.fullName, email: user.email });
+      
+      setTimeout(() => {
+        navigate("/"); 
+      }, 2000);
     },
     onError: (error) => {
       console.error("Error signing up:", error.message);
