@@ -2,7 +2,7 @@
 
 Follow these steps ---
 <br>
-1. git clone https://github.com/rupeshv2121/Reto_India.git
+1. git clone https://github.com/RETO-INDIA/Reto-India
 
 2. cd (path to react folder where package.json is located)
 
