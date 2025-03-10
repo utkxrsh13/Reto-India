@@ -5,7 +5,8 @@ import { toast, ToastContainer } from "react-toastify";
 import { loginUser } from "../../API/api";
 import { useAuth } from "../../Context/AuthContext";
 import "./Login.css";
-
+import Lottie from "lottie-react";
+import ArtisticAnimation from "../../Lottie/Animation_artistic_3.json";
 const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ const Login = () => {
     email: "",
     password: "",
   });
-
+  const [isLoading, setIsLoading] = useState(false);
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setUser((prevUser) => ({
@@ -24,6 +25,7 @@ const Login = () => {
 
   const { mutate } = useMutation({
     mutationFn: (user) => loginUser(user),
+    onMutate: () => setIsLoading(true),
     onSuccess: (response) => {
       console.log(response);
       toast.success("Login Successfully");
@@ -38,6 +40,7 @@ const Login = () => {
     },
 
     onError: (error) => {
+      setIsLoading(false);
       toast.error(
         error.response?.data?.message || "Login failed. Please try again.",
         { position: "top-center" }
@@ -58,11 +61,16 @@ const Login = () => {
   return (
     <div className="unique-login-wrapper">
       <ToastContainer style={{ zIndex: "10000000" }} />
+      {isLoading && (
+        <div className="full-screen-loader">
+          <Lottie animationData={ArtisticAnimation} className="full-screen-animation" />
+        </div>
+      )}
       <div className="unique-login-container">
         <h1>Login</h1>
         <h2>One Aim. More Organic Traffic to you, effortlessly.</h2>
 
-        <div className="unique-login-card">
+        {!isLoading && (<div className="unique-login-card">
           <form>
             <div className="unique-login-content">
               {/* Email Input */}
@@ -95,6 +103,7 @@ const Login = () => {
                 id="unique-loginButton"
                 className="unique-login-btn"
                 onClick={handleSubmit}
+                disabled={isLoading}
               >
                 LOGIN →
               </button>
@@ -129,6 +138,7 @@ const Login = () => {
             </div>
           </form>
         </div>
+        )}
       </div>
     </div>
   );

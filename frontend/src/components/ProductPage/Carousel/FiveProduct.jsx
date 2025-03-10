@@ -11,15 +11,22 @@ import { toast, ToastContainer } from "react-toastify";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import { addToCart } from "../../../Redux/CartSlice";
+import LottieAnimation from "../../LottieAnimation/LottieAnimation";
+import LoadingAnimation from "../../../Lottie/Animation_Loading.json"; 
 const ProductPage = () => {
   const dispatch = useDispatch();
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true); 
   const fetchData = async () => {
     try {
       const response = await axios.get('https://reto-india-admin-backend.onrender.com/Product');
-      setProducts(response.data);
+      setTimeout(() => {
+        setProducts(response.data);
+        setLoading(false); 
+      }, 800); 
     } catch (error) {
       console.error('Error fetching data:', error);
+      setLoading(false);
     }
   };
 
@@ -70,7 +77,13 @@ const ProductPage = () => {
     toast("Item added Successfully");
     dispatch(addToCart(product));
   };
-
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <LottieAnimation animationData={LoadingAnimation} width={150} height={150} />
+      </div>
+    );
+  }
   return (
     
     <div className="flex items-center justify-center">

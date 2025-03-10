@@ -177,91 +177,92 @@ const OrderPage = () => {
           </div>
 
           {/* Order Summary */}
-          <div className="bg-slate-200 order-1 lg:order-2 rounded-lg shadow p-6">
-            <div className="pb-4 mb-4">
-              <div className="flex justify-between items-center pt-2 mb-2">
-                <span className="text-sm font-medium text-gray-600">
-                  Order ID:
-                </span>
-                <span className="text-sm font-medium text-gray-800">
-                  {selectedCartItem ? selectedCartItem.itemId : "#2312343"}
-                </span>
+          {orders.length > 0 && (
+            <div className="bg-slate-200 order-1 lg:order-2 rounded-lg shadow p-6">
+              <div className="pb-4 mb-4">
+                <div className="flex justify-between items-center pt-2 mb-2">
+                  <span className="text-sm font-medium text-gray-600">
+                    Order ID:
+                  </span>
+                  <span className="text-sm font-medium text-gray-800">
+                    {selectedCartItem ? selectedCartItem.itemId : "#2312343"}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center pt-2 mb-2 border-t-[1px] border-gray-300 ">
+                  <span className="text-sm font-medium text-gray-600">
+                    Delivery Status:
+                  </span>
+                  <span className="text-sm font-medium text-gray-800">
+                    {selectedCartItem ? selectedCartItem.Status : "Delivered"}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center pt-2 mb-2 border-t-[1px] border-gray-300 ">
+                  <span className="text-sm font-medium text-gray-600">
+                    Payment Method:
+                  </span>
+                  <span className="text-sm font-medium text-gray-800">
+                    Online
+                  </span>
+                </div>
+                <div className="flex justify-between items-center pt-2 mb-2 border-t-[1px] border-gray-300 ">
+                  <span className="text-sm font-medium text-gray-600">Date:</span>
+                  <span className="text-sm font-medium text-gray-800">
+                    01/01/2025
+                  </span>
+                </div>
+                <div className="flex justify-between items-center pt-2 mb-2 border-t-[1px] border-gray-300 ">
+                  <span className="text-sm font-medium text-gray-600">
+                    Delivery Address:
+                  </span>
+                  <span className="text-sm text-right font-medium text-gray-800">
+                    {orders.length > 0 ? orders[0].address : "247,Aagman Society, Surat"}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center pt-2 mb-2 border-t-[1px] border-gray-300">
+                  <span className="text-sm font-medium text-gray-600">
+                    Total Items:
+                  </span>
+                  <span className="text-sm font-medium text-gray-800">
+                    {selectedCartItem ? selectedCartItem.quantity : totalQuantity}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center pt-2 mb-2 border-t-[1px] border-gray-300 ">
+                  <span className="text-sm font-medium text-gray-600">
+                    Total Price:
+                  </span>
+                  <span className="text-sm font-medium text-gray-800">
+                    ${" "}
+                    {selectedCartItem
+                      ? (selectedCartItem.price * selectedCartItem.quantity).toFixed(2)
+                      : totalPrice.toFixed(2)}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center pt-2 border-t-[1px] border-gray-300 ">
+                  <span className="text-sm font-medium text-gray-600">
+                    Shipping Charge:
+                  </span>
+                  <span className="text-sm font-medium text-gray-800">
+                    $ 5.00
+                  </span>
+                </div>
               </div>
-              <div className="flex justify-between items-center pt-2 mb-2 border-t-[1px] border-gray-300 ">
-                <span className="text-sm font-medium text-gray-600">
-                  Delivery Status:
-                </span>
-                <span className="text-sm font-medium text-gray-800">
-                  {selectedCartItem ? selectedCartItem.Status : "Delivered"}
-                </span>
-              </div>
-              <div className="flex justify-between items-center pt-2 mb-2 border-t-[1px] border-gray-300 ">
-                <span className="text-sm font-medium text-gray-600">
-                  Payment Method:
-                </span>
-                <span className="text-sm font-medium text-gray-800">
-                  Online
-                </span>
-              </div>
-              <div className="flex justify-between items-center pt-2 mb-2 border-t-[1px] border-gray-300 ">
-                <span className="text-sm font-medium text-gray-600">Date:</span>
-                <span className="text-sm font-medium text-gray-800">
-                  01/01/2025
-                </span>
-              </div>
-              <div className="flex justify-between items-center pt-2 mb-2 border-t-[1px] border-gray-300 ">
-                <span className="text-sm font-medium text-gray-600">
-                  Delivery Address:
-                </span>
-                <span className="text-sm text-right font-medium text-gray-800">
-                  {orders.length > 0 ? orders[0].address : "247,Aagman Society, Surat"}
-                </span>
-              </div>
-              <div className="flex justify-between items-center pt-2 mb-2 border-t-[1px] border-gray-300">
-                <span className="text-sm font-medium text-gray-600">
-                  Total Items:
-                </span>
-                <span className="text-sm font-medium text-gray-800">
-                  {selectedCartItem ? selectedCartItem.quantity : totalQuantity}
-                </span>
-              </div>
-              <div className="flex justify-between items-center pt-2 mb-2 border-t-[1px] border-gray-300 ">
-                <span className="text-sm font-medium text-gray-600">
-                  Total Price:
-                </span>
-                <span className="text-sm font-medium text-gray-800">
-                  ${" "}
-                  {selectedCartItem
-                    ? (selectedCartItem.price * selectedCartItem.quantity).toFixed(2)
-                    : totalPrice.toFixed(2)}
-                </span>
-              </div>
-              <div className="flex justify-between items-center pt-2 border-t-[1px] border-gray-300 ">
-                <span className="text-sm font-medium text-gray-600">
-                  Shipping Charge:
-                </span>
-                <span className="text-sm font-medium text-gray-800">
-                  $ 5.00
-                </span>
-              </div>
-            </div>
 
-            <div className="border-t-[1px] border-gray-400 pt-4">
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-medium text-gray-600">
-                  Total Cost:
-                </span>
-                <span className="text-sm font-medium text-gray-800">
-                  ${" "}
-                  {selectedCartItem
-                    ? (
-                        selectedCartItem.price * selectedCartItem.quantity + 5
-                      ).toFixed(2)
-                    : (totalPrice + 5).toFixed(2)}
-                </span>
+              <div className="border-t-[1px] border-gray-400 pt-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-medium text-gray-600">
+                    Total Cost:
+                  </span>
+                  <span className="text-sm font-medium text-gray-800">
+                    ${" "}
+                    {selectedCartItem
+                      ? (selectedCartItem.price * selectedCartItem.quantity + 5).toFixed(2)
+                      : (totalPrice + 5).toFixed(2)}
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
+          )}
+
         </div>
       </div>
     </div>
