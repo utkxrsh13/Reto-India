@@ -11,21 +11,8 @@ import { toast, ToastContainer } from "react-toastify";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import { addToCart } from "../../../Redux/CartSlice";
-const ProductPage = () => {
+const ProductPage = ({ products }) => {
   const dispatch = useDispatch();
-  const [products, setProducts] = useState([]);
-  const fetchData = async () => {
-    try {
-      const response = await axios.get('https://reto-india-admin-backend.onrender.com/Product');
-      setProducts(response.data);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   const settings = {
     dots: true,
