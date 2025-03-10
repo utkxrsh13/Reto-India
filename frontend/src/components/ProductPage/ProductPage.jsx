@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
+import axios from "axios"; // ✅ Axios import
 import slider1 from "../../assets/slider1.png";
 import slider2 from "../../assets/slider2.png";
 import slider3 from "../../assets/slider3.png";
@@ -13,47 +14,52 @@ const Home = () => {
     { src: slider3, name: "Product 3", price: 200, id: 3 },
     { src: slider1, name: "Product 4", price: 100, id: 4 },
     { src: slider2, name: "Product 5", price: 150, id: 5 },
-    { src: slider3, name: "Product 3", price: 200, id: 6 },
-    { src: slider2, name: "Product 2", price: 100, id: 7 },
-    { src: slider2, name: "Product 2", price: 150, id: 8 },
-  ];
-
-  const Products = [
-    { src: slider1, name: "Product 1", price: 100, id: 1 },
-    { src: slider2, name: "Product 2", price: 100, id: 2 },
-    { src: slider3, name: "Product 3", price: 100, id: 3 },
-    { src: slider1, name: "Product 4", price: 100, id: 4 },
-    { src: slider2, name: "Product 5", price: 100, id: 5 },
-    { src: slider3, name: "Product 6", price: 100, id: 6 },
+    { src: slider3, name: "Product 6", price: 200, id: 6 },
     { src: slider1, name: "Product 7", price: 100, id: 7 },
-    { src: slider2, name: "Product 8", price: 100, id: 8 },
+    { src: slider2, name: "Product 8", price: 150, id: 8 },
   ];
 
   const [searchItems, setSearchItems] = useState("");
-  const [filterTrending, setFilterTrending] = useState(Trending);
-  const [filterProduct, setFilterProduct] = useState(Products);
+  const [products, setProducts] = useState([]); // ✅ Original product list from API
+  const [filteredProducts, setFilteredProducts] = useState([]); // ✅ Filtered list for search
+  const [filterTrending, setFilterTrending] = useState(Trending); // ✅ Trending list
+
+  // 🟢 Fetch data from API
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        "https://reto-india-admin-backend.onrender.com/Product"
+      );
+      console.log(response.data)
+      setProducts(response.data); 
+      setFilteredProducts(response.data); 
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   useEffect(() => {
-    const lowercasedSearch = searchItems.trim().toLowerCase();
-
-    if (!lowercasedSearch) {
-      setFilterProduct(Products);
+    if (!searchItems.trim()) {
+      setFilteredProducts(products); 
       setFilterTrending(Trending);
       return;
     }
 
-    const filteredProducts = Products.filter((item) =>
-      item.name.toLowerCase().includes(lowercasedSearch)
+    const filtered = products?.filter((item) =>
+      item?.title?.toLowerCase().includes(searchItems.toLowerCase())
     );
 
     const filteredTrending = Trending.filter((item) =>
-      item.name.toLowerCase().includes(lowercasedSearch)
+      item?.name?.toLowerCase().includes(searchItems.toLowerCase())
     );
 
-    // Don't reset to full product list if no product is found
-    setFilterProduct(filteredProducts);
+    setFilteredProducts(filtered);
     setFilterTrending(filteredTrending);
-  }, [searchItems]);
+  }, [searchItems]); 
+
 
   return (
     <div
@@ -62,7 +68,7 @@ const Home = () => {
         background: "linear-gradient(462deg, #fdf2e3 51%, #ffd39c 70%)",
       }}
     >
-      {/* Search Bar */}
+      {/* 🔎 Search Bar */}
       <div className="w-full flex justify-center items-center">
         <div className="w-full sm:w-4/5 md:w-2/3 lg:w-2/5 flex px-[30px] md:pt-0 relative justify-center">
           <input
@@ -79,15 +85,15 @@ const Home = () => {
       </div>
 
       {/* No Results Message */}
-      {filterProduct.length === 0 && filterTrending.length === 0 ? (
+      {filteredProducts.length === 0 && filterTrending.length === 0 ? (
         <p className="text-center text-red-500 text-lg font-semibold">
           No Product Found
         </p>
       ) : (
         <>
-          {/* Product Carousels */}
+          {/* ✅ Product Carousels */}
           <MainCarousel trendingProduct={filterTrending} />
-          <ProductPage ProductItems={filterProduct} />
+          <ProductPage products={filteredProducts} />
         </>
       )}
     </div>
