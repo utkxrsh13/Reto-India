@@ -1,6 +1,5 @@
-// import React from "react";
-import axios from 'axios';
 import React, { useEffect, useState } from "react";
+import axios from 'axios';
 import { AiFillStar } from "react-icons/ai";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { IoCartOutline, IoEyeOutline } from "react-icons/io5";
@@ -12,18 +11,20 @@ import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import { addToCart } from "../../../Redux/CartSlice";
 import LottieAnimation from "../../LottieAnimation/LottieAnimation";
-import LoadingAnimation from "../../../Lottie/Animation_Loading.json"; 
+import LoadingAnimation from "../../../Lottie/Animation_Loading.json";
+
 const ProductPage = () => {
   const dispatch = useDispatch();
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
+
   const fetchData = async () => {
     try {
       const response = await axios.get('https://reto-india-admin-backend.onrender.com/Product');
       setTimeout(() => {
         setProducts(response.data);
-        setLoading(false); 
-      }, 800); 
+        setLoading(false);
+      }, 800);
     } catch (error) {
       console.error('Error fetching data:', error);
       setLoading(false);
@@ -36,9 +37,9 @@ const ProductPage = () => {
 
   const settings = {
     dots: true,
-    infinite: products.length > 3, // Only enable infinite if there are more than 3 products
+    infinite: products.length > 3,
     speed: 1000,
-    slidesToShow: Math.min(3, products.length), // Show fewer slides if there are fewer products
+    slidesToShow: Math.min(3, products.length),
     slidesToScroll: Math.min(3, products.length),
     autoplay: true,
     autoplaySpeed: 3000,
@@ -77,6 +78,7 @@ const ProductPage = () => {
     toast("Item added Successfully");
     dispatch(addToCart(product));
   };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -84,8 +86,8 @@ const ProductPage = () => {
       </div>
     );
   }
+
   return (
-    
     <div className="flex items-center justify-center">
       <ToastContainer />
       <div className="w-full lg:w-[90%] bg-white/20 rounded-lg shadow-2xl border border-white/30 p-6">
@@ -99,22 +101,15 @@ const ProductPage = () => {
                 key={index}
                 className="p-[5px] overflow-hidden w-full mx-auto cursor-pointer rounded-xl relative group"
               >
-                {/* Image */}
-                {/* <NavLink to="/product/productView"> */}
-                {/* <Link to="productView"> */}
-
-                <NavLink to={`/product/${product._id}`} state={{ product }} >
-                  {/* <NavLink to="/product/productView"> */}
-
+                <NavLink to={`/product/${product._id}`} state={{ product }}>
                   <img
                     src={`https://reto-india-admin-backend.onrender.com${product.image1}`}
                     alt={product.title}
                     className="h-full w-full mx-auto object-cover rounded-xl group-hover:scale-105 duration-300 ease-linear"
-                    style={{height: "450px",width: "100%"}}
+                    style={{ height: "450px", width: "100%" }}
                   />
                 </NavLink>
 
-                {/* Hover Effects */}
                 <div className="absolute w-full h-16 text-black bottom-0 left-0 bg-orange-300 opacity-90 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out flex items-center justify-between px-3">
                   <button className="py-2 font-semibold">Buy Now</button>
                   <div className="flex gap-2">
@@ -127,7 +122,6 @@ const ProductPage = () => {
                   </div>
                 </div>
 
-                {/* Rating (Visible on Hover) */}
                 <div className="absolute top-3 right-3 bg-orange-300 px-2 py-1 rounded-md shadow-md opacity-0 group-hover:opacity-90 transition-opacity duration-300 ease-in-out flex items-center gap-1">
                   4.5 <AiFillStar />
                 </div>

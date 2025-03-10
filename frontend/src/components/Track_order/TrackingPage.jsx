@@ -54,86 +54,92 @@ export default function TrackingPage() {
 
   return (
     <div className="tracking_container">
-      <h2>Track Order</h2>
-      <div className="dotsandline"></div>
-      <div className="tracking_content">
-        <div className="track-box">
-          {loading ? (
-            <LottieAnimation animationData={TrackAnimation} />
-          ) : showTracking ? (
-            <div className="replace_dmd_box">
-              {trackingData ? (
-                <>
-                  <div className="divtext"><strong>Order ID:</strong> {trackingData.orderId}</div>
-                  <div className="divtext"><strong>Status:</strong> {trackingData.status}</div>
-                  <div className="divtext"><strong>Title:</strong> {trackingData.title}</div>
-                  <div className="divtext"><strong>Price:</strong> ₹{trackingData.price}</div>
-                  
-                  {/* Display all tracking locations */}
-                  {trackingData.trackLocations && trackingData.trackLocations.length > 0 ? (
-                    trackingData.trackLocations.map((loc, index) => (
-                      <div key={index} className="divtext">
-                        <strong>Product has reached:</strong> {loc.location} (at {new Date(loc.timestamp).toLocaleString()})
-                      </div>
-                    ))
-                  ) : (
-                    <div className="divtext">No tracking locations available.</div>
-                  )}
-                </>
-              ) : (
-                <div className="divtext">No order found.</div>
-              )}
+      <h1 className="checkout-heading">Track order</h1>
+      <div className="options">
+        <p className="underline-circle"></p>
+        <p className="line"></p>
+        <p className="underline-circle"></p>
+      </div>
+      <div className="Wrapper">
+        <div className="tracking_content">
+          <div className="track-box">
+            {loading ? (
+              <LottieAnimation animationData={TrackAnimation} /> // Added Lottie animation here
+            ) : showTracking ? (
+              <div className="replace_dmd_box">
+                {trackingData ? (
+                  <>
+                    <div className="divtext"><strong>Order ID:</strong> {trackingData.orderId}</div>
+                    <div className="divtext"><strong>Status:</strong> {trackingData.status}</div>
+                    <div className="divtext"><strong>Title:</strong> {trackingData.title}</div>
+                    <div className="divtext"><strong>Price:</strong> ₹{trackingData.price}</div>
+
+                    {/* Display all tracking locations */}
+                    {trackingData.trackLocations && trackingData.trackLocations.length > 0 ? (
+                      trackingData.trackLocations.map((loc, index) => (
+                        <div key={index} className="divtext">
+                          <strong>Product has reached:</strong> {loc.location} (at {new Date(loc.timestamp).toLocaleString()})
+                        </div>
+                      ))
+                    ) : (
+                      <div className="divtext">No tracking locations available.</div>
+                    )}
+                  </>
+                ) : (
+                  <div className="divtext">No order found.</div>
+                )}
+              </div>
+            ) : (
+              <div className="diamond-div">
+                <img
+                  className="diamond"
+                  src="https://static.vecteezy.com/system/resources/previews/001/198/313/non_2x/diamond-png.png"
+                  alt="diamond"
+                />
+              </div>
+            )}
+            <div className="trackingPage-divider"></div>
+            <div className="order-form-div">
+              <form className="order-form" onSubmit={handleSubmit}>
+                <input
+                  className="input-details-tracking"
+                  type="text"
+                  placeholder="Your Order ID"
+                  value={orderId}
+                  onChange={(e) => setOrderId(e.target.value)}
+                  required
+                />
+                <input
+                  className="input-details-tracking"
+                  type="text"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </form>
+              {error && <div className="error-message">{error}</div>}
             </div>
-          ) : (
-            <div className="diamond-div">
-              <img
-                className="diamond"
-                src="https://static.vecteezy.com/system/resources/previews/001/198/313/non_2x/diamond-png.png"
-                alt="diamond"
-              />
-            </div>
-          )}
-          <div className="trackingPage-divider"></div>
-          <div className="order-form-div">
-            <form className="order-form" onSubmit={handleSubmit}>
-              <input
-                className="input-details-tracking"
-                type="text"
-                placeholder="Your Order ID"
-                value={orderId}
-                onChange={(e) => setOrderId(e.target.value)}
-                required
-              />
-              <input
-                className="input-details-tracking"
-                type="text"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-              <button type="submit" className="tracking-btn" disabled={loading}>
-                {loading ? "Tracking..." : "Track Order"}
-              </button>
-            </form>
-            {error && <div className="error-message">{error}</div>}
           </div>
         </div>
       </div>
       <div className="social-links">
-        <NavLink to="https://x.com/RetoINDIA" target="_blank" rel="noopener noreferrer">
+        <a href="#" target="_blank" rel="noopener noreferrer">
           <XIcon sx={{ fontSize: "2rem" }} />
-        </NavLink>
-        <NavLink to="https://www.facebook.com/share/1FAkbBiRUA/" target="_blank" rel="noopener noreferrer">
+        </a>
+        <a href="#" target="_blank" rel="noopener noreferrer">
           <FacebookIcon sx={{ fontSize: "2rem" }} />
-        </NavLink>
-        <NavLink to="https://www.instagram.com/retoindia.official/?hl=en" target="_blank" rel="noopener noreferrer">
+        </a>
+        <a href="#" target="_blank" rel="noopener noreferrer">
           <InstagramIcon sx={{ fontSize: "2rem" }} />
-        </NavLink>
-        <NavLink to="https://www.linkedin.com/company/reto-india/?viewAsMember=true" target="_blank" rel="noopener noreferrer">
+        </a>
+        <a href="#" target="_blank" rel="noopener noreferrer">
           <LinkedInIcon sx={{ fontSize: "2rem" }} />
-        </NavLink>
+        </a>
       </div>
+      <button type="submit" className="tracking-btn" disabled={loading} onClick={handleSubmit}>
+        {loading ? "Tracking..." : "Track Order"}
+      </button>
     </div>
   );
 }

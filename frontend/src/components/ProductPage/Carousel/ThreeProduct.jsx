@@ -12,20 +12,9 @@ import slider3 from '../../../assets/slider3.png';
 import { addToCart } from "../../../Redux/CartSlice";
 import './ThreeProduct.css';
 
-const MainCarousel = () => {
+const MainCarousel = ({trendingProduct}) => {
   const dispatch = useDispatch();
 
-  const images = [
-    { src: slider1, name: "Product 1", price: 100, id: 1 },
-    { src: slider2, name: "Product 2", price: 150, id: 2 },
-    { src: slider3, name: "Product 3", price: 200, id: 3 },
-    { src: slider1, name: "Product 4", price: 100, id: 4 },
-    { src: slider2, name: "Product 5", price: 150, id: 5 },
-    { src: slider3, name: "Product 6", price: 200, id: 6 },
-    { src: slider1, name: "Product 7", price: 100, id: 7 },
-    { src: slider2, name: "Product 8", price: 150, id: 8 },
-    { src: slider3, name: "Product 9", price: 200, id: 9 },
-  ];
 
   const PrevArrow = ({ onClick }) => (
     <div
@@ -78,7 +67,7 @@ const MainCarousel = () => {
         {/* Trending Product */}
       </h1>
       <Slider {...settings}>
-        {images.map((image, id) => (
+        {trendingProduct.map((image, id) => (
           <>
            <div key={id} className="banner h-[430px]  p-[5px] overflow-hidden w-[93%] mx-auto cursor-pointer rounded-xl relative group">
               {/* Image */}

@@ -244,14 +244,14 @@ const CheckoutPage = () => {
     }
   
     // Add userId to the user data before sending it to the backend
-    const userOrderData = {
-      ...user,
-      userId: userId, // Add userId here
-    };
+    // const userOrderData = {
+    //   ...user,
+    //   userId: userId, // Add userId here
+    // };
   
-    console.log("Sending order data:", userOrderData);
+    // console.log("Sending order data:", userOrderData);
     setPopupVisible(true);
-    mutate(userOrderData); // Trigger the mutation with orderData
+    // mutate(userOrderData); // Trigger the mutation with orderData
   
     // ✅ Load Razorpay SDK before using it
     const isRazorpayLoaded = await loadRazorpayScript();
@@ -290,6 +290,14 @@ const CheckoutPage = () => {
   
             if (verifyResponse.ok) {
               toast("Payment verified successfully!");
+              const userOrderData = {
+                ...user,
+                userId: userId, // Add userId here
+              };
+
+              console.log("Sending order data:", userOrderData);
+
+              mutate(userOrderData); 
               navigate(`/order/${response.razorpay_order_id}/success?success=true&verify=done`, {
                 state: {
                   razorpay_payment_id: response.razorpay_payment_id,
@@ -314,6 +322,14 @@ const CheckoutPage = () => {
           contact: user.phone,
         },
         theme: { color: "#fde2c3" },
+        modal: {
+          escape: false,
+          ondismiss: function () {
+            console.log("User canceled the payment.");
+            toast.error("Failed to place order.");
+            setPopupVisible(false);
+          },
+        },
       };
   
       const rzp1 = new window.Razorpay(options);
