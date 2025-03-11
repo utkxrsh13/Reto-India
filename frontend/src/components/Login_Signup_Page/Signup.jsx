@@ -8,7 +8,8 @@ import { toast, ToastContainer } from "react-toastify";
 import { signUpUser } from "../../API/api";
 import { useAuth } from "../../Context/AuthContext";
 import "./Signup.css";
-
+import LottieAnimation from "../LottieAnimation/LottieAnimation"; 
+import ArtisticAnimation from "../../Lottie/Animation_artistic_3.json"; 
 const Signup = () => {
   const {login} = useAuth();
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ const Signup = () => {
   
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-
+  const [showAnimation, setShowAnimation] = useState(false); 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setUser((prevUser) => ({
@@ -35,24 +36,31 @@ const Signup = () => {
     onSuccess: (response) => {
       console.log("Signup successful - onSuccess triggered", response);
 
-      setUser({ fullName: "", email: "", password: "", phoneNo: "" });
-      if (!response.token) {
-        console.error("Signup response missing required fields:", response);
-        toast.error("Signup failed. Please try again.", { position: "top-center" });
-        return;
-      }
-
-      toast.success("Signup successful", { position: "top-center" });
-      
-      login(response.token, { fullName: user.fullName, email: user.email });
-      
       setTimeout(() => {
-        navigate("/"); 
+        setShowAnimation(false); 
+        setUser({ fullName: "", email: "", password: "", phoneNo: "" }); // Reset form
+
+        if (!response.token) {
+          console.error("Signup response missing required fields:", response);
+          toast.error("Signup failed. Please try again.", { position: "top-center" });
+          return;
+        }
+
+        toast.success("Signup successful", { position: "top-center" });
+
+        login(response.token, { fullName: user.fullName, email: user.email });
+
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
       }, 2000);
     },
     onError: (error) => {
       console.error("Error signing up:", error.message);
-      toast.error("Signup failed. Please try again.", { position: "top-center" });
+      setTimeout(() => {
+        setShowAnimation(false); // Hide animation after 2 seconds
+        toast.error("Signup failed. Please try again.", { position: "top-center" });
+      }, 2000);
     },
   });
 
@@ -74,7 +82,7 @@ const Signup = () => {
       toast.warn("Password must be at least 6 characters long", { position: "top-center" });
       return;
     }
-
+    setShowAnimation(true);
     console.log(user);
     mutate(user);
   };
@@ -145,10 +153,15 @@ const Signup = () => {
                 className="button signup-btn-border is-large is-responsive mt-5"
                 id="submitButton"
                 style={{ borderRadius: "8px", color: "#000" }}
-                disabled={isLoading}
+                disabled={isLoading || showAnimation}
               >
-                {isLoading ? "Signing Up..." : "SIGNUP →"}
+                {isLoading || showAnimation ? "Signing Up..." : "SIGNUP →"}
               </button>
+              {showAnimation && (
+                  <div className="full-screen-loader">
+                    <LottieAnimation animationData={ArtisticAnimation} className="full-screen-animation" />
+                  </div>
+              )}
               <div className="divider-wrapper mt-4 mb-4">
                 <span>OR</span>
               </div>

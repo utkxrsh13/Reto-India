@@ -5,6 +5,8 @@ import XIcon from "@mui/icons-material/X";
 import { useState } from "react";
 import { NavLink } from "react-router";
 import "./TrackingPage.css";
+import LottieAnimation from "../LottieAnimation/LottieAnimation";
+import TrackAnimation from "../../Lottie/Animation_track.json";
 
 export default function TrackingPage() {
   const [showTracking, setShowTracking] = useState(false);
@@ -27,18 +29,24 @@ export default function TrackingPage() {
       const data = await response.json();
       console.log("API Response:", data); // ✅ Debug log
 
-      if (response.ok && data) {
-        setTrackingData(data);
-        setShowTracking(true);
-      } else {
-        setError(data?.message || "Order not found.");
+      setTimeout(() => {
+        if (response.ok && data) {
+          setTrackingData(data);
+          setShowTracking(true);
+        } else {
+          setError(data?.message || "Order not found.");
+          setTrackingData(null);
+          setShowTracking(false);
+        }
+        setLoading(false);
+      }, 2000);
+    } catch (error) {
+      setTimeout(() => {
+        setError("Something went wrong. Please try again.");
         setTrackingData(null);
         setShowTracking(false);
-      }
-    } catch (error) {
-      setError("Something went wrong. Please try again.");
-      setTrackingData(null);
-      setShowTracking(false);
+        setLoading(false);
+      }, 2000);
     } finally {
       setLoading(false);
     }
@@ -56,7 +64,7 @@ export default function TrackingPage() {
         <div className="tracking_content">
           <div className="track-box">
             {loading ? (
-              <div className="divtext">Fetching order details...</div>
+              <LottieAnimation animationData={TrackAnimation} /> // Added Lottie animation here
             ) : showTracking ? (
               <div className="replace_dmd_box">
                 {trackingData ? (
@@ -109,7 +117,6 @@ export default function TrackingPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                 />
-
               </form>
               {error && <div className="error-message">{error}</div>}
             </div>
@@ -117,7 +124,6 @@ export default function TrackingPage() {
         </div>
       </div>
       <div className="social-links">
-
         <a href="#" target="_blank" rel="noopener noreferrer">
           <XIcon sx={{ fontSize: "2rem" }} />
         </a>
@@ -130,7 +136,6 @@ export default function TrackingPage() {
         <a href="#" target="_blank" rel="noopener noreferrer">
           <LinkedInIcon sx={{ fontSize: "2rem" }} />
         </a>
-
       </div>
       <button type="submit" className="tracking-btn" disabled={loading} onClick={handleSubmit}>
         {loading ? "Tracking..." : "Track Order"}
