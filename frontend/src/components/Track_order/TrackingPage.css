@@ -1,5 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap");
-
 * {
   margin: 0;
   padding: 0;
@@ -21,66 +20,44 @@ body {
 }
 
 .tracking_container {
+  font-family: var(--my-font1);
+  /* overflow-y: scroll;
+    position: fixed; */
+  height: 100vh;
+  width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-shrink: 0;
   justify-content: center;
-  padding-top: 20px;
+  background: linear-gradient(462deg, #fdf2e3 51%, #ffd39c 70%);
 }
 
-.Wrapper {
-  display: flex;
-  justify-content: center;
-  margin-top: 50px;
-}
-
-.checkout-heading {
-  text-align: center;
-  font-size: 3rem;
-}
-
-.options {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.underline-circle {
-  height: 1rem;
-  width: 1rem;
-  border-radius: 50%;
-  background-color: rgb(255, 132, 0);
-}
-
-.line {
+.tracking_container h2 {
+  width: 217px;
+  height: 3px;
   background-color: black;
-  height: 0.2rem;
-  width: 10rem;
-  margin: 0 10px;
+  position: absolute;
+  left: 41%;
+  top: 191px;
 }
 
 .tracking_content {
-  display: flex;
-  justify-content: center;
-  width: 80%;
+  position: absolute;
+  top: 14rem;
 }
 
 .track-box {
-
   display: flex;
   flex-shrink: 1;
   gap: 70px;
-  justify-content: center;
-  align-items: center;
-  width: 80%;
+  margin-left: 10rem;
+  margin-top: 2rem;
 }
 
 .diamond-div {
   display: flex;
-
-  justify-content: center;
-  align-items: center;
-  width: 50%;
-  height: 100%;
+  flex-direction: column;
+  text-align: center;
+  padding: 1rem 0 6rem 0;
   font-family: var(--my-font1);
 }
 
@@ -105,6 +82,39 @@ body {
   text-align: center;
 }
 
+.dotsandline {
+  width: 222px;
+  height: 3px;
+  background-color: black;
+  position: absolute;
+  left: 41%;
+  top: 189px;
+}
+
+.dotsandline::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  left: -10%;
+  top: -3px;
+  display: block;
+  border-radius: 10px;
+  background-color: #f28908;
+}
+
+.dotsandline::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  display: block;
+  position: absolute;
+  right: -10%;
+  top: -3px;
+  border-radius: 10px;
+  background-color: #f28908;
+}
+
 .diamond-div h2 {
   font-family: "Bricolage Grotesque", Sans-serif !important;
   color: black;
@@ -113,9 +123,9 @@ body {
 }
 
 .diamond {
-  height: 90%;
+  height: 220px;
   width: 280px;
-
+  /* filter:drop-shadow(3px 3px 10px rgb(244, 139, 69)); */
 }
 
 .divider {
@@ -123,29 +133,20 @@ body {
   background-color: black;
 }
 
-.order-form-div {
-  width: 50%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .order-form {
-  height: 75%;
+  height: 80%;
+  text-align: left;
   gap: 38px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  width: 500px;
   font-weight: 400;
   font-family: var(--my-font1);
   font-size: 16px;
   font-style: normal;
-  border: 2px solid rgb(111, 80, 36);
+  border: 2px solid black;
   border-radius: 20px;
+  padding: 20px 35px;
   box-shadow: 0px 1px 12px 0px orange;
+  padding-top: 4rem;
 }
 
 .input-details-tracking {
@@ -197,12 +198,14 @@ textarea::placeholder {
   transition: transform 0.5s ease-in-out;
 }
 
-.social-links div:hover {
-  transform: rotateY(180deg) scale(1.2);
+.social-links a:hover {
+  transform: scale(1.1);
 }
 
 .tracking-btn {
-
+  position: absolute;
+  bottom: -20%;
+  left: 39%;
   border-radius: 2rem;
   font-size: 1rem;
   padding: 10px 50px 10px 50px;
@@ -212,14 +215,12 @@ textarea::placeholder {
   border: 1px solid rgb(255, 132, 0);
   box-shadow: 0px 1px 12px 0px orange;
   font-weight: 600;
-  align-self: center;
 }
 
 .trackingPage-divider {
   height: 306px;
   background: black;
   width: 3px;
-  display: block;
 }
 
 .tracking-btn:hover {
@@ -229,95 +230,136 @@ textarea::placeholder {
   color: black;
 }
 
-@media only screen and (max-width:1024px) {
-  .track-box {
+@media screen and (max-width: 1024px) {
+  .tracking_container h2 {
+    left: 23.5rem;
+  }
+  .order-form {
     width: 90%;
-    gap: 50px;
   }
-
-  .tracking_container {
-    padding-top: 100px;
-  }
-}
-
-@media only screen and (max-width:852px) {
   .track-box {
-    width: 100%;
-    gap: 50px;
+    margin-left: 2rem;
   }
-
-  .tracking_container {
-    padding-top: 10px;
-  }
-}
-
-@media only screen and (max-width:768px) {
   .tracking_content {
-    width: 90%;
+    width: 80%;
+    margin-left: 8rem;
   }
-
-  .track-box {
-
-    gap: 30px;
+  .order-form-div {
+    width: 75%;
   }
-
-  .diamond {
-    height: 80%;
+  .dotsandline {
+    left: 36%;
   }
-
   .tracking-btn {
-    font-size: 0.8rem;
-    padding: 8px 40px;
-
+    bottom: -9%;
+    left: 59%;
   }
-
-  .checkout-heading {
-    font-size: 2.5rem;
-  }
-
   .social-links {
-    font-size: 25px;
+    top: 64%;
+    left: 16px;
+    gap: 4px;
   }
 }
-
-@media only screen and (max-width:685px) {
+@media screen and (max-width: 768px) {
   .tracking_content {
-    width: 100%;
+    margin-left: 5rem;
+  }
+  .track-box {
+    margin: 0;
+    gap: 55px;
+  }
+  .tracking_container h2 {
+    left: 17.6rem;
   }
 }
-
-@media only screen and (max-width:540px) {
-  .track-box {
-    flex-direction: column;
+@media screen and (max-width: 426px) {
+  .social-links {
+    top: 66%;
+    gap: 15px;
+    font-size: 26px;
+    left: 9px;
   }
-
+  .MuiSvgIcon-root {
+    font-size: 1.8rem !important;
+  }
+  .dotsandline {
+    left: 28%;
+    width: 195px;
+    top: 171px;
+  }
+  .tracking_container h2 {
+    left: 7.6rem;
+    font-size: 35px;
+  }
   .trackingPage-divider {
     display: none;
   }
-
-  .order-form {
-    height: 100%;
+  .track-box {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5rem;
   }
-}
-
-@media only screen and (max-width:400px) {
-  .order-form {
-    padding: 8px;
+  .diamond {
+    height: 160px;
+    width: 200px;
+    position: relative;
+    left: -14%;
   }
-
-  .input-details-tracking {
-    width: 100%;
-    padding: 5px 7px;
-    font-size: 15px;
+  .diamond-div {
+    padding: 0;
   }
-
+  .order-form-div {
+    width: 95%;
+  }
   .tracking-btn {
-    padding: 10px 20px;
+    bottom: 0%;
+    left: 15%;
   }
-
-  .social-links {
-    font-size: 18px;
+  .tracking_container {
+    height: 110vh;
+  }
+  .tracking_content {
+    margin-left: 4rem;
+  }
+  .order-form {
+    padding: 33px 26px;
   }
 }
-
-/*# sourceMappingURL=trackingPage.css.map */
+@media screen and (max-width: 376px) {
+  .dotsandline {
+    left: 27%;
+  }
+  .tracking_container h2 {
+    left: 6.5rem;
+  }
+  .tracking_content {
+    margin-left: 4rem;
+  }
+  .social-links {
+    font-size: 25px;
+    top: 67%;
+    left: 3%;
+  }
+  .order-form {
+    padding: 27px 9px;
+    padding-top: 2rem;
+  }
+  .css-r0vxuw-MuiSvgIcon-root {
+    font-size: 1.2rem !important;
+  }
+}
+@media screen and (max-width: 321px) {
+  .dotsandline {
+    left: 21%;
+  }
+  .tracking_container h2 {
+    left: 4.6rem;
+  }
+  .order-form-div {
+    width: 100%;
+  }
+  .tracking-btn {
+    left: 7%;
+  }
+}/*# sourceMappingURL=trackingPage.css.map */
