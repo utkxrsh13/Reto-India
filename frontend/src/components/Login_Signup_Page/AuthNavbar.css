@@ -1,7 +1,6 @@
 /* @import url("../../assets/fonts/customFonts.css"); */
 .main-nav {
   margin: auto;
-  padding-top: 1.5rem;
   z-index: 999999 !important;
   /* padding-top: 30px; */
 }
@@ -167,7 +166,6 @@ body {
 }
 @media (max-width: 770px) {
   .main-nav {
-
     height: 5.5rem;
   }
   .nav-group ul {
@@ -206,7 +204,6 @@ body {
     display: block;
   }
 }
-
 @media only screen and (max-width: 320px) {
   .nav-group ul li {
     top: -23rem;
