@@ -1,5 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap");
-
 * {
   margin: 0;
   padding: 0;
@@ -12,6 +11,7 @@ body {
   height: 100vh;
   margin: 0;
   padding: 0;
+  background: linear-gradient(462deg, #fdf2e3 51%, #ffd39c 70%);
 }
 
 body {
@@ -65,7 +65,6 @@ body {
 }
 
 .track-box {
-
   display: flex;
   flex-shrink: 1;
   gap: 70px;
@@ -76,7 +75,6 @@ body {
 
 .diamond-div {
   display: flex;
-
   justify-content: center;
   align-items: center;
   width: 50%;
@@ -115,7 +113,6 @@ body {
 .diamond {
   height: 90%;
   width: 280px;
-
 }
 
 .divider {
@@ -202,7 +199,6 @@ textarea::placeholder {
 }
 
 .tracking-btn {
-
   border-radius: 2rem;
   font-size: 1rem;
   padding: 10px 50px 10px 50px;
@@ -229,95 +225,75 @@ textarea::placeholder {
   color: black;
 }
 
-@media only screen and (max-width:1024px) {
+@media only screen and (max-width: 1024px) {
   .track-box {
     width: 90%;
     gap: 50px;
   }
-
   .tracking_container {
     padding-top: 100px;
   }
 }
-
-@media only screen and (max-width:852px) {
+@media only screen and (max-width: 852px) {
   .track-box {
     width: 100%;
     gap: 50px;
   }
-
   .tracking_container {
     padding-top: 10px;
   }
 }
-
-@media only screen and (max-width:768px) {
+@media only screen and (max-width: 768px) {
   .tracking_content {
     width: 90%;
   }
-
   .track-box {
-
     gap: 30px;
   }
-
   .diamond {
     height: 80%;
   }
-
   .tracking-btn {
     font-size: 0.8rem;
     padding: 8px 40px;
-
   }
-
   .checkout-heading {
     font-size: 2.5rem;
   }
-
   .social-links {
     font-size: 25px;
   }
 }
-
-@media only screen and (max-width:685px) {
+@media only screen and (max-width: 685px) {
   .tracking_content {
     width: 100%;
   }
 }
-
-@media only screen and (max-width:540px) {
+@media only screen and (max-width: 540px) {
   .track-box {
     flex-direction: column;
   }
-
   .trackingPage-divider {
     display: none;
   }
-
   .order-form {
     height: 100%;
   }
 }
-
-@media only screen and (max-width:400px) {
+@media only screen and (max-width: 400px) {
   .order-form {
     padding: 8px;
   }
-
   .input-details-tracking {
     width: 100%;
     padding: 5px 7px;
     font-size: 15px;
   }
-
   .tracking-btn {
     padding: 10px 20px;
   }
-
   .social-links {
     font-size: 18px;
   }
 }
-
 /*# sourceMappingURL=trackingPage.css.map */
