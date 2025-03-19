@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { NavLink, useNavigate } from "react-router-dom";
+import './orderPage.css';
 
 const OrderPage = () => {
   const navigate = useNavigate();
@@ -88,12 +89,12 @@ const OrderPage = () => {
         <h2 className="text-3xl font-semibold mb-6 text-gray-800 text-center md:text-center">
           My Orders
         </h2>
-        <div className="w-[50%] h-[80%] m-auto">
+        <div className="empty-order">
           {/* Cart Items */}
           <div className="lg:col-span-2 order-2 lg:order-1 bg-white rounded-lg shadow-xl p-6">
             {orders.length === 0 ? (
               <div className="flex flex-col gap-6 items-center">
-                <p className="text-center text-3xl max-md:text-2xl text-gray-600 p-[1rem]">
+                <p className="msg text-center text-3xl max-md:text-2xl text-gray-600 p-[1rem]">
                  Please Add Items to the cart
                 </p>
                 <button
