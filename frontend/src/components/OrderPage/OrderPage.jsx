@@ -94,7 +94,7 @@ const OrderPage = () => {
             {orders.length === 0 ? (
               <div className="flex flex-col gap-6 items-center">
                 <p className="text-center text-3xl max-md:text-2xl text-gray-600 p-[1rem]">
-                 Please Add Items to cart
+                 Please Add Items to the cart
                 </p>
                 <button
                   onClick={handleContinueShopping}
