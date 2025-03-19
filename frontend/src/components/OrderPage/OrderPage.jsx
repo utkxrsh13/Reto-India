@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { NavLink, useNavigate } from "react-router-dom";
+import './orderPage.css';
 
 const OrderPage = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const OrderPage = () => {
   
         if (!token) {
           console.error("No token found. User not authenticated.");
-          setError("Authentication error. Please log in again.");
+          // setError("Authentication error. Please log in again.");
           setLoading(false);
           return;
         }
@@ -85,28 +86,25 @@ const OrderPage = () => {
       }}
     >
       <div className="container mx-auto px-3 md:px-4">
-        <h2 className="text-3xl font-semibold mb-6 text-gray-800 text-center md:text-start">
+        <h2 className="text-3xl font-semibold mb-6 text-gray-800 text-center md:text-center">
           My Orders
         </h2>
-        <div className="grid lg:grid-cols-3 gap-6">
+        <div className="empty-order">
           {/* Cart Items */}
           <div className="lg:col-span-2 order-2 lg:order-1 bg-white rounded-lg shadow-xl p-6">
             {orders.length === 0 ? (
               <div className="flex flex-col gap-6 items-center">
-                <p className="text-center text-4xl max-md:text-2xl text-gray-600">
-                  No orders found
+                <p className="msg text-center text-3xl max-md:text-2xl text-gray-600 p-[1rem]">
+                 Please Add Items to the cart
                 </p>
                 <button
                   onClick={handleContinueShopping}
                   className="text-black text-sm font-medium"
                 >
-                  <NavLink
-                    to="/product"
-
-                    className="background px-4 py-3 rounded-md border-[1px] border-orange-200 hover:bg-orange-400 hover:scale-105 duration-200 ease-linear"
-                  >
-                    Continue Shopping
+                  <NavLink to="/product" className="px-4 py-3 rounded-[2rem] border border-orange-500 bg-orange-300 text-white font-semibold shadow-lg shadow-orange-400 transition-transform duration-200 ease-linear hover:bg-orange-400 hover:scale-105 mt-8">
+                          Continue Shopping
                   </NavLink>
+
                 </button>
               </div>
             ) : (

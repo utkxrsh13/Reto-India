@@ -78,9 +78,9 @@ const LandingPage = () => {
               {/* <br /> */}
               again!
             </p>
-            <div className="btns">
+            <NavLink to="/product" className="btns">
               <button className="landing-btn">Explore With Us</button>
-            </div>
+            </NavLink>
           </div>
 
           <div className="img-parent">

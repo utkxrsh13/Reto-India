@@ -6,9 +6,6 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import Slider from "react-slick";
 import { toast, ToastContainer } from "react-toastify";
-import { default as slider1 } from "../../../assets/slider1.png";
-import slider2 from '../../../assets/slider2.png';
-import slider3 from '../../../assets/slider3.png';
 import { addToCart } from "../../../Redux/CartSlice";
 import './ThreeProduct.css';
 
@@ -18,7 +15,7 @@ const MainCarousel = ({trendingProduct}) => {
 
   const PrevArrow = ({ onClick }) => (
     <div
-      className="prev-arrow-box absolute top-1/2 left-3 transform -translate-y-1/2 bg-gray-800 bg-opacity-20 text-white p-2 rounded-full cursor-pointer z-10"
+      className="prev-arrow-box absolute top-1/2 left-[-1rem] transform -translate-y-1/2 bg-gray-800 bg-opacity-20 text-white p-2 rounded-full cursor-pointer z-10"
       onClick={onClick}
     ><i className="fa-solid fa-arrow-left prev-arrow"></i>
       {/* <AiOutlineLeft size={40} className="prev-arrow" /> */}
@@ -27,7 +24,7 @@ const MainCarousel = ({trendingProduct}) => {
  
   const NextArrow = ({ onClick }) => (
     <div
-      className="next-arrow-box absolute top-1/2 right-3 transform -translate-y-1/2 bg-gray-800 bg-opacity-20 text-white p-2 rounded-full cursor-pointer z-10"
+      className="next-arrow-box absolute top-1/2 right-[-1rem] transform -translate-y-1/2 bg-gray-800 bg-opacity-20 text-white p-2 rounded-full cursor-pointer z-10"
       onClick={onClick}
     ><i className="fa-solid fa-arrow-right next-arrow"></i>
       {/* <AiOutlineRight size={40} /> */}
@@ -39,11 +36,29 @@ const MainCarousel = ({trendingProduct}) => {
     infinite: true,
     speed: 1000,
     autoplaySpeed: 3000,
-    autoplay: true,
-    slidesToShow: 1,
+    // autoplay: true,
+    slidesToShow: 3,
     slidesToScroll: 1,
     prevArrow: <PrevArrow />, 
     nextArrow: <NextArrow />, 
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          // slidesToShow: Math.min(2, products.length),
+          slidesToScroll: 1,
+          dots: false,
+        },
+      },
+      {
+        breakpoint: 640,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          dots: false,
+        },
+      },
+    ],
   };
 
   const navigate = useNavigate();
@@ -61,7 +76,7 @@ const MainCarousel = ({trendingProduct}) => {
   };
 
   return (
-    <div className="w-full p-5 banner-div">
+    <div className="w-full p-5 banner-div px-[3.2rem]" >
       <ToastContainer />
       <h1 className="md:text-3xl mb-4 text-black text-center font-semibold">
         {/* Trending Product */}
@@ -72,7 +87,9 @@ const MainCarousel = ({trendingProduct}) => {
            <div key={id} className="banner h-[430px]  p-[5px] overflow-hidden w-[93%] mx-auto cursor-pointer rounded-xl relative group">
               {/* Image */}
               {image.src ? (
-                <img src={image.src} alt={image.name ? image.name : "Product Image"} className="banner-image w-full object-cover rounded-xl group-hover:scale-105 duration-300 ease-linear"/>) : (
+              <>  <img src={image.src} alt={image.name ? image.name : "Product Image"} className="banner-image w-full object-cover rounded-xl group-hover:scale-105 duration-300 ease-linear"/>
+                <img src={image.src} alt={image.name ? image.name : "Product Image"} className="banner-image w-full object-cover rounded-xl group-hover:scale-105 duration-300 ease-linear"/>
+                </>) : (
                 <div className="w-full h-[450px] flex items-center justify-center bg-gray-300 text-gray-700 text-lg font-semibold rounded-xl">
                           No Image Available
                 </div>

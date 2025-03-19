@@ -1,0 +1,20 @@
+.empty-order {
+    width: 50%;
+    margin: auto;
+}
+
+@media screen and (max-width:426px) {
+    .empty-order {
+        width: 75%;
+    }
+}
+
+@media screen and (max-width:321px) {
+    .empty-order {
+        width: 85%;
+    }
+
+    .msg {
+        font-size: 20px;
+    }
+}

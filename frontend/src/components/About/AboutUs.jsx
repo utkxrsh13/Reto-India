@@ -63,7 +63,7 @@ const AboutPage = () => {
             Land By Supporting Handmade And Traditional Products Crafted With
             Skill And Passion.
           </p>
-          <button>Read More</button>
+          {/* <button>Read More</button> */}
         </div>
         <div className="card">
           <img src={ThirdImage} alt="Community Connection" />
@@ -73,7 +73,7 @@ const AboutPage = () => {
             Bridging The Gap And Creating Opportunities For Sustainable
             Livelihoods.
           </p>
-          <button>Read More</button>
+          {/* <button>Read More</button> */}
         </div>
         <div className="card">
           <img src={FourthImage} alt="Sustainability" />
@@ -83,7 +83,7 @@ const AboutPage = () => {
             To Promoting Sustainability And Reducing The Environmental Impact Of
             Mass Production.
           </p>
-          <button>Read More</button>
+          {/* <button>Read More</button> */}
         </div>
       </section>
     </div>
