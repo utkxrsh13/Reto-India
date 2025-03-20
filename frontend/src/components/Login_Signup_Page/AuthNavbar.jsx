@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
 import { FaCartShopping } from "react-icons/fa6";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
 import ProgressBar from "../ProgressBar/ProgressBar";
 import "./AuthNavbar.css";
-import { resetCart } from "../../Redux/CartSlice";
 
 const Navbar = () => {
   const { isLoggedIn, fullName, logout } = useAuth();
-  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -24,8 +22,6 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logout();
-    // dispatch(resetCart()); // Reset cart in Redux
-    // localStorage.removeItem("cart"); // Clear cart from localStorage
     navigate("/");
     setIsOpen(false); // Close navbar after logout
   };
@@ -101,7 +97,7 @@ const Navbar = () => {
                   </li>
                 ) : (
                   <li className="last">
-                    <NavLink className="header-cta ct-abtn" to="/auth/login" onClick={handleNavLinkClick}>
+                    <NavLink className="header-cta ct-abtn" to="/auth/signup" onClick={handleNavLinkClick}>
                       GET STARTED
                     </NavLink>
                   </li>

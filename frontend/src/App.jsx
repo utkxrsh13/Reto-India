@@ -3,7 +3,6 @@ import { lazy, Suspense } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import TitleUpdater from "../src/components/Title_Updater/title_updater";
 import MainLayout from "./components/Layout/MainLayout";
-import CartPersistence from "./components/CartPage/CartPersistence";
 
 const LandingPage = lazy(() => import("./components/LandingPage/LandingPage"));
 const AboutUs = lazy(() => import("./components/About/AboutUs"));
@@ -30,7 +29,6 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <Router>
         <TitleUpdater />
-        <CartPersistence/>
         <Suspense fallback={<div className="text-center mt-10">Loading...</div>}>
           <Routes>
             <Route path="/" element={<MainLayout />}>

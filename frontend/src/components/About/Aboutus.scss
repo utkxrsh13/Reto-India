@@ -6,7 +6,7 @@ body {
 }
 
 .about-page {
-  // background: linear-gradient(462deg, #fdf2e3 51%, #ffd39c 70%);
+  background: linear-gradient(462deg, #fdf2e3 51%, #ffd39c 70%);
   color: #333;
   padding: 20px;
 }
@@ -104,7 +104,7 @@ p {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  justify-content: space-evenly;
+  justify-content: space-between;
   padding: 0 10px;
   box-sizing: border-box;
 }
