@@ -64,9 +64,9 @@ const Home = () => {
   return (
     <div
       className="background pt-[30px] md:pt-[50px] lg:pt-[30px] bg-cover bg-no-repeat bg-center min-h-lvh space-y-10 custom-padding"
-      style={{
-        background: "linear-gradient(462deg, #fdf2e3 51%, #ffd39c 70%)",
-      }}
+      // style={{
+      //   background: "linear-gradient(462deg, #fdf2e3 51%, #ffd39c 70%)",
+      // }}
     >
       {/* 🔎 Search Bar */}
       <div className="w-full flex justify-center items-center">

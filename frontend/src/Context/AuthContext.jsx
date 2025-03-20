@@ -1,11 +1,25 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { loadCart, resetCart } from "../Redux/CartSlice";
+import { useDispatch } from "react-redux";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [fullName, setFullName] = useState("");
-  const [userId,setUserId] = useState("");
+  const [userId, setUserId] = useState("");
+  const dispatch = useDispatch();
+
+  // In your AuthProvider or main App component:
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      const savedCart = localStorage.getItem("cart");
+      if (savedCart) {
+        dispatch(loadCart(JSON.parse(savedCart)));
+      }
+    }
+  }, [dispatch]);
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -30,6 +44,8 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("username");
+    dispatch(resetCart()); // Reset cart state
+    // localStorage.removeItem('cart'); // Remove cart from localStorage
     setIsLoggedIn(false);
     setFullName("");
   };
