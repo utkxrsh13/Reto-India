@@ -52,7 +52,10 @@ const ProductView = () => {
     dispatch(addToCart(product));
     
     // Then navigate to checkout
+  // Use a timeout to ensure Redux state updates before navigating
+  setTimeout(() => {
     navigate("/checkout");
+  }, 300);
   };
 
   return (

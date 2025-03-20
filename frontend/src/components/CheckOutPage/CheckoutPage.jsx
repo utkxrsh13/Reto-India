@@ -8,11 +8,11 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { checkout, createOrder } from "../../API/api";
 import "./CheckOutPage.css";
-import { resetCart } from "../../Redux/CartSlice";
+import { loadCart, resetCart } from "../../Redux/CartSlice";
 
 const CheckoutPage = () => {
   const dispatch = useDispatch();
-
+  const cart = useSelector(state => state.cart);
   useGSAP(() => {
     gsap.from(".details", {
       x: 400,
@@ -66,7 +66,14 @@ const CheckoutPage = () => {
     pinCode: "",
     cartItems: cartItems,
   });
-
+  useEffect(() => {
+    if (!cart.items.length) {
+      const savedCart = localStorage.getItem("cart");
+      if (savedCart) {
+        dispatch(loadCart(JSON.parse(savedCart)));
+      }
+    }
+  }, [dispatch, cart]);
   useEffect(() => {
     setUser((prevUser) => ({
       ...prevUser,
@@ -121,109 +128,7 @@ const CheckoutPage = () => {
     });
   };
 
-  // const handleOnClick = async (e) => {
-  //   e.preventDefault();
-
-  //   if (!userId) {
-  //     toast("Please log in to proceed with checkout.");
-  //     return;
-  //   }
-
-  //   // 🛑 Validate user details
-  //   if (!user.name || !user.phone || !user.email || !user.address || !user.pinCode){
-  //     toast("Enter details in all fields");
-  //     return;
-  //   }
-
-  //   if (user.cartItems.length === 0) {
-
-  //     toast("Your cart is empty!");
-  //     return;
-  //   }
-
-  //   // Add userId to the user data before sending it to the backend
-  //   const orderData = {
-  //     ...user,
-  //     userId: userId, // Add userId here
-  //   };
-
-  //   console.log("Sending order data:", orderData);
-  //   setPopupVisible(true);
-  //   mutate(orderData); // Trigger the mutation with orderData
-
-  //   // ✅ Load Razorpay SDK before using it
-  //   const isRazorpayLoaded = await loadRazorpayScript();
-  //   if (!isRazorpayLoaded) {
-  //     toast("Failed to load Razorpay SDK. Check your internet connection.");
-  //     return;
-  //   }
-
-  //   try {
-  //     // 🎯 Create order (amount in paise)
-  //     const orderData = await createOrder({ amount: totalPrice });
-
-  //     const options = {
-  //       key: "rzp_test_xxDux3IIvlBSYN", // ⚠️ Replace with your Razorpay key
-  //       amount: orderData.amount,
-  //       currency: "INR",
-  //       name: "Reto-India",
-  //       description: "Order Payment",
-  //       order_id: orderData.id,
-  //       handler: async function (response) {
-  //         console.log("Payment successful", response);
-
-  //         // 🛡️ Verify payment
-  //         try {
-  //           const verifyResponse = await fetch("http://localhost:5000/verify-payment", {
-  //             method: "POST",
-  //             headers: { "Content-Type": "application/json" },
-  //             body: JSON.stringify({
-  //               razorpay_order_id: response.razorpay_order_id,
-  //               razorpay_payment_id: response.razorpay_payment_id,
-  //               razorpay_signature: response.razorpay_signature,
-  //             }),
-  //           });
-
-  //           const verifyData = await verifyResponse.json();
-
-  //           if (verifyResponse.ok) {
-  //             toast("Payment verified successfully!");
-  //             navigate(`/order/${response.razorpay_order_id}/success?success=true&verify=done`, {
-  //               state: {
-  //                 razorpay_payment_id: response.razorpay_payment_id,
-  //                 razorpay_order_id:response.razorpay_order_id,
-  //                 amount: orderData.amount,
-  //                 cartItems: cartItems,
-  //               }
-  //             })
-  //             mutate({ ...user, cartItems });
-  //           } else {
-  //             toast("Payment verification failed. Please contact support.");
-  //           }
-  //         } catch (error) {
-  //           console.error("Error verifying payment:", error);
-  //           toast("Payment verification error.");
-  //         }
-  //       },
-
-  //       prefill: {
-  //         name: user.name,
-  //         email: user.email,
-  //         contact: user.phone,
-  //       },
-  //       theme: { color: "#fde2c3" },
-  //     };
-
-  //     const rzp1 = new window.Razorpay(options);
-  //     rzp1.open();
-  //   } catch (error) {
-  //     console.error("Error initiating payment:", error);
-  //     toast("Failed to initiate payment");
-  //   }
-
-  // };
-
-  const handleOnClick = async (e) => {
+    const handleOnClick = async (e) => {
     e.preventDefault();
 
     if (!userId) {
