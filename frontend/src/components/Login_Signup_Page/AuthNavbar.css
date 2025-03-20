@@ -5,6 +5,9 @@
   /* padding-top: 30px; */
 }
 
+body {
+  background-color: #ffdaaa;
+}
 
 .auth-navbar {
   padding-bottom: 12px;

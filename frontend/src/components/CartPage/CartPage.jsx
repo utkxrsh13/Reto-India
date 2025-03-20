@@ -137,7 +137,7 @@ const CartPage = () => {
                               {item.quantity}
                             </span>
                             <button
-                              onClick={() => handleIncrement(item._id)}
+                              onClick={() => handleIncrement(item.id)}
                               className=" hover:bg-gray-200 rounded-md text-black font-semibold py-1 px-2 text-lg ml-2"
                             >
                               +

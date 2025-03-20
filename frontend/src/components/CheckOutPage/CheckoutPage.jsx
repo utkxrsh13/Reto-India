@@ -3,16 +3,13 @@ import { useMutation } from "@tanstack/react-query";
 import { gsap } from "gsap";
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { checkout, createOrder } from "../../API/api";
 import "./CheckOutPage.css";
-import { resetCart } from "../../Redux/CartSlice";
 
 const CheckoutPage = () => {
-  const dispatch = useDispatch();
-
   useGSAP(() => {
     gsap.from(".details", {
       x: 400,
@@ -39,9 +36,9 @@ const CheckoutPage = () => {
   });
 
   const cartItems = useSelector((state) => state.cart.items);
-
-  console.log("Recent Product Added : ", cartItems);
-
+  
+  console.log("Recent Product Added : ",cartItems);
+  
   const totalPrice =
     cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0) + 5; // Including shipping fee
 
@@ -129,17 +126,21 @@ const CheckoutPage = () => {
   //     return;
   //   }
 
+  
+   
   //   // 🛑 Validate user details
-  //   if (!user.name || !user.phone || !user.email || !user.address || !user.pinCode){
+  //   if (!user.name || !user.phone || !user.email || !user.address || !user.pinCode){ 
   //     toast("Enter details in all fields");
   //     return;
   //   }
+
 
   //   if (user.cartItems.length === 0) {
 
   //     toast("Your cart is empty!");
   //     return;
   //   }
+
 
   //   // Add userId to the user data before sending it to the backend
   //   const orderData = {
@@ -193,7 +194,7 @@ const CheckoutPage = () => {
   //                 razorpay_payment_id: response.razorpay_payment_id,
   //                 razorpay_order_id:response.razorpay_order_id,
   //                 amount: orderData.amount,
-  //                 cartItems: cartItems,
+  //                 cartItems: cartItems, 
   //               }
   //             })
   //             mutate({ ...user, cartItems });
@@ -225,50 +226,44 @@ const CheckoutPage = () => {
 
   const handleOnClick = async (e) => {
     e.preventDefault();
-
+  
     if (!userId) {
       toast("Please log in to proceed with checkout.");
       return;
     }
-
+  
     // 🛑 Validate user details
-    if (
-      !user.name ||
-      !user.phone ||
-      !user.email ||
-      !user.address ||
-      !user.pinCode
-    ) {
+    if (!user.name || !user.phone || !user.email || !user.address || !user.pinCode) {
       toast("Enter details in all fields");
       return;
     }
-
+  
     if (user.cartItems.length === 0) {
       toast("Your cart is empty!");
       return;
     }
-
+  
     // Add userId to the user data before sending it to the backend
     // const userOrderData = {
     //   ...user,
     //   userId: userId, // Add userId here
     // };
-
+  
     // console.log("Sending order data:", userOrderData);
     setPopupVisible(true);
     // mutate(userOrderData); // Trigger the mutation with orderData
-
+  
     // ✅ Load Razorpay SDK before using it
     const isRazorpayLoaded = await loadRazorpayScript();
     if (!isRazorpayLoaded) {
       toast("Failed to load Razorpay SDK. Check your internet connection.");
       return;
     }
-
+  
     try {
       // 🎯 Create order (amount in paise)
       const razorpayOrderData = await createOrder({ amount: totalPrice });
-
+  
       const options = {
         key: "rzp_test_xxDux3IIvlBSYN", // ⚠️ Replace with your Razorpay key
         amount: razorpayOrderData.amount,
@@ -278,24 +273,21 @@ const CheckoutPage = () => {
         order_id: razorpayOrderData.id,
         handler: async function (response) {
           console.log("Payment successful", response);
-
+  
           // 🛡️ Verify payment
           try {
-            const verifyResponse = await fetch(
-              "https://reto-india-backend.onrender.com/verify-payment",
-              {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  razorpay_order_id: response.razorpay_order_id,
-                  razorpay_payment_id: response.razorpay_payment_id,
-                  razorpay_signature: response.razorpay_signature,
-                }),
-              }
-            );
-
+            const verifyResponse = await fetch("https://reto-india-backend.onrender.com/verify-payment", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+              }),
+            });
+  
             const verifyData = await verifyResponse.json();
-
+  
             if (verifyResponse.ok) {
               toast("Payment verified successfully!");
               const userOrderData = {
@@ -305,23 +297,15 @@ const CheckoutPage = () => {
 
               console.log("Sending order data:", userOrderData);
 
-              mutate(userOrderData);
-
-              // Reset cart after successful order
-              dispatch(resetCart());
-              localStorage.removeItem("cart");
-
-              navigate(
-                `/order/${response.razorpay_order_id}/success?success=true&verify=done`,
-                {
-                  state: {
-                    razorpay_payment_id: response.razorpay_payment_id,
-                    razorpay_order_id: response.razorpay_order_id,
-                    amount: razorpayOrderData.amount,
-                    cartItems: cartItems,
-                  },
+              mutate(userOrderData); 
+              navigate(`/order/${response.razorpay_order_id}/success?success=true&verify=done`, {
+                state: {
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_order_id: response.razorpay_order_id,
+                  amount: razorpayOrderData.amount,
+                  cartItems: cartItems, 
                 }
-              );
+              });
               mutate({ ...user, cartItems });
             } else {
               toast("Payment verification failed. Please contact support.");
@@ -331,7 +315,7 @@ const CheckoutPage = () => {
             toast("Payment verification error.");
           }
         },
-
+  
         prefill: {
           name: user.name,
           email: user.email,
@@ -347,7 +331,7 @@ const CheckoutPage = () => {
           },
         },
       };
-
+  
       const rzp1 = new window.Razorpay(options);
       rzp1.open();
     } catch (error) {
@@ -355,6 +339,7 @@ const CheckoutPage = () => {
       toast("Failed to initiate payment");
     }
   };
+  
 
   if (!userId) {
     return <div>Please log in to proceed with checkout.</div>;

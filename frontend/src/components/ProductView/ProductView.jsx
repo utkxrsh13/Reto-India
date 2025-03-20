@@ -1,17 +1,13 @@
 import StarRateIcon from "@mui/icons-material/StarRate";
-import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
+import { NavLink, useLocation, useParams } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import "./Product.css";
-import { toast, ToastContainer } from "react-toastify";
-import { useDispatch } from "react-redux";
-import { addToCart } from "../../Redux/CartSlice";
 
 const ProductView = () => {
   const { productId } = useParams();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+
   const location = useLocation();
   const { product } = location.state || {};
   console.log(productId);
@@ -25,34 +21,6 @@ const ProductView = () => {
     arrows: true,
     nextArrow: <div style={{ fontSize: "30px", right: "10px"}}>&#9654;</div>,
     prevArrow: <div style={{ fontSize: "30px", left: "10px" }}>&#9664;</div>,
-  };
-
-  const handleAddToCart = () => {
-    const authToken = localStorage.getItem("authToken");
-    if (!authToken) {
-      localStorage.setItem("redirectAfterLogin", window.location.pathname);
-      navigate("/auth/signup");
-      return;
-    }
-
-    console.log("Product added to cart:", product);
-    toast("Item added Successfully");
-    dispatch(addToCart(product));
-  };
-
-  const handleBuyNow = () => {
-    const authToken = localStorage.getItem("authToken");
-    if (!authToken) {
-      localStorage.setItem("redirectAfterLogin", window.location.pathname);
-      navigate("/auth/signup");
-      return;
-    }
-    
-    // Add to cart first (so it appears on checkout)
-    dispatch(addToCart(product));
-    
-    // Then navigate to checkout
-    navigate("/checkout");
   };
 
   return (
@@ -107,10 +75,10 @@ const ProductView = () => {
               </div>
 
               <div className="BtnBar">
-                <button onClick={handleAddToCart}>Add to Cart</button>
-                {/* <NavLink to="/checkout"> */}
-                  <button onClick={handleBuyNow}>Buy Now</button>
-                {/* </NavLink> */}
+                <button>Add to Cart</button>
+                <NavLink to="/checkout">
+                  <button>Buy Now</button>
+                </NavLink>
               </div>
             </div>
           </div>
