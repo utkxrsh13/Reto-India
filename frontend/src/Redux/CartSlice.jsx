@@ -101,11 +101,26 @@ export const {
 
 export const saveCartToLocalStorage = store => next => action => {
   const result = next(action);
+  
   if (action.type.startsWith("cart/")) {
     const cartState = store.getState().cart;
+    
+    // Always save to localStorage for guest users
     localStorage.setItem("cart", JSON.stringify(cartState));
+    
+    // If user is logged in, also save to database
+    const token = localStorage.getItem("token");
+    if (token && cartState.items.length > 0 && 
+        action.type !== "cart/loadCart") { // Prevent loop
+      import("../API/api").then(api => {
+        api.saveCartToDatabase(cartState.items);
+      });
+    }
   }
+  
   return result;
 };
+
+
 
 export default cartSlice.reducer;

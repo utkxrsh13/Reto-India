@@ -29,14 +29,19 @@ export const checkout = async (userData) => {
       "Error during checkout:",
       error.response?.data || error.message
     );
-    throw new Error(error.response?.data?.message || "Failed to place order. Please try again.");
+    throw new Error(
+      error.response?.data?.message ||
+        "Failed to place order. Please try again."
+    );
   }
 };
 
 // For Signup Page
 export const signUpUser = async (userData) => {
   try {
-    const response = await api.post("/auth/signup", userData, { withCredentials: true });
+    const response = await api.post("/auth/signup", userData, {
+      withCredentials: true,
+    });
     console.log("Signup successful:");
     return response?.data;
   } catch (error) {
@@ -65,14 +70,61 @@ export const loginUser = async (userData) => {
   }
 };
 
+// Save cart to database
+export const saveCartToDatabase = async (cartItems) => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      return null; // User not logged in
+    }
+
+    const response = await api.post(
+      "/save-cart",
+      { items: cartItems },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error saving cart to database:", error);
+    return null;
+  }
+};
+
+// Load cart from database
+export const loadCartFromDatabase = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      return null; // User not logged in
+    }
+
+    const response = await api.get("/load-cart", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error loading cart from database:", error);
+    return null;
+  }
+};
+
 export const createOrder = async (orderData) => {
-  const response = await fetch("https://reto-india-backend.onrender.com/create-order", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(orderData),
-  });
+  const response = await fetch(
+    "https://reto-india-backend.onrender.com/create-order",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(orderData),
+    }
+  );
 
   if (!response.ok) {
     throw new Error("Failed to create order");
@@ -80,6 +132,5 @@ export const createOrder = async (orderData) => {
 
   return await response.json();
 };
-
 
 export default api;

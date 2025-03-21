@@ -134,7 +134,9 @@ const ProductPage = () => {
                 <div className="absolute w-full h-16 text-black bottom-0 left-0 bg-orange-300 opacity-90 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out flex items-center justify-between px-3">
                   <button className="py-2 font-semibold" onClick={handleBuyNow}>Buy Now</button>
                   <div className="flex gap-2">
+                    <NavLink to={`/product/${product._id}`} state={{ product }}>
                     <IoEyeOutline className="cursor-pointer w-7 h-7" />
+                    </NavLink>
                     <IoCartOutline
                       className="cursor-pointer w-7 h-7"
                       onClick={() => handleAddToCart(product)}
