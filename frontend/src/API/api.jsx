@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://reto-india-backend.onrender.com/",
+  baseURL: "http://reto-india-backend.onrender.com/",
   headers: {
     "Content-Type": "application/json",
   },
@@ -87,6 +87,7 @@ export const saveCartToDatabase = async (cartItems) => {
         },
       }
     );
+    console.log('Save Cart To Database', response.data)
     return response.data;
   } catch (error) {
     console.error("Error saving cart to database:", error);
@@ -107,6 +108,7 @@ export const loadCartFromDatabase = async () => {
         Authorization: `Bearer ${token}`,
       },
     });
+    console.log('Load Cart To Database', response.data)
     return response.data;
   } catch (error) {
     console.error("Error loading cart from database:", error);

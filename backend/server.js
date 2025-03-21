@@ -350,6 +350,7 @@ app.post("/save-cart", authenticateUser, async (req, res) => {
     );
 
     res.json(cart.items);
+    // console.log(cart.items)
   } catch (error) {
     console.error("Error saving cart:", error);
     res.status(500).json({ error: "Error saving cart" });
