@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from 'axios';
+import axios from "axios";
 import { AiFillStar } from "react-icons/ai";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { IoCartOutline, IoEyeOutline } from "react-icons/io5";
@@ -20,13 +20,15 @@ const ProductPage = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('https://reto-india-admin-backend.onrender.com/Product');
+      const response = await axios.get(
+        "https://reto-india-admin-backend.onrender.com/Product"
+      );
       setTimeout(() => {
         setProducts(response.data);
         setLoading(false);
       }, 800);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
       setLoading(false);
     }
   };
@@ -68,6 +70,7 @@ const ProductPage = () => {
   const handleAddToCart = (product) => {
     const authToken = localStorage.getItem("authToken");
     if (!authToken) {
+      localStorage.setItem("redirectAfterLogin", window.location.pathname);
       setTimeout(() => {
         navigate("/auth/signup");
       });
@@ -78,11 +81,29 @@ const ProductPage = () => {
     toast("Item added Successfully");
     dispatch(addToCart(product));
   };
+  const handleBuyNow = (product) => {
+    const authToken = localStorage.getItem("authToken");
+    if (!authToken) {
+      localStorage.setItem("redirectAfterLogin", window.location.pathname);
+      navigate("/auth/signup");
+      return;
+    }
+
+    // Add to cart first (so it appears on checkout)
+    dispatch(addToCart(product));
+
+    // Then navigate to checkout
+    navigate("/checkout");
+  };
 
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <LottieAnimation animationData={LoadingAnimation} width={150} height={150} />
+        <LottieAnimation
+          animationData={LoadingAnimation}
+          width={150}
+          height={150}
+        />
       </div>
     );
   }
@@ -111,7 +132,7 @@ const ProductPage = () => {
                 </NavLink>
 
                 <div className="absolute w-full h-16 text-black bottom-0 left-0 bg-orange-300 opacity-90 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out flex items-center justify-between px-3">
-                  <button className="py-2 font-semibold">Buy Now</button>
+                  <button className="py-2 font-semibold" onClick={handleBuyNow}>Buy Now</button>
                   <div className="flex gap-2">
                     <IoEyeOutline className="cursor-pointer w-7 h-7" />
                     <IoCartOutline

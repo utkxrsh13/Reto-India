@@ -1,14 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  items: [],
-  totalQuantity: 0,
-};
+// cartSlice.js
+const initialState = (() => {
+  // Check if running in a browser environment
+  if (typeof window !== 'undefined') {
+    const savedCart = localStorage.getItem('cart');
+    return savedCart ? JSON.parse(savedCart) : { items: [], totalQuantity: 0 };
+  }
+  return { items: [], totalQuantity: 0 };
+})();
 
 const cartSlice = createSlice({
   name: "cart",
-  initialState,
+  initialState, // Use the initialized state
   reducers: {
+    loadCart: (state, action) => {
+      return action.payload;
+    },
     addToCart: (state, action) => {
       const newItem = action.payload; // Payload contains the product object
       console.log("Reducer received payload:", newItem);
@@ -59,12 +67,35 @@ const cartSlice = createSlice({
         state.items = state.items.filter((item) => item._id !== _id);
       }
     },
+
+    resetCart: (state) => {
+      state.items = [];
+      state.totalQuantity = 0;
+    },
   },
 });
 export const {
+  loadCart,
   addToCart,
   incrementQuantity,
   decrementQuantity,
   removeItemCompletely,
+  resetCart,
 } = cartSlice.actions;
+
+export const saveCartToLocalStorage = store => next => action => {
+  const result = next(action);
+
+  if (action.type.startsWith('cart/')) {
+    const cartState = store.getState().cart;
+    
+    // Only save if the cart has items
+    if (cartState.items.length > 0) {
+      localStorage.setItem('cart', JSON.stringify(cartState));
+    }
+  }
+
+  return result;
+};
+
 export default cartSlice.reducer;

@@ -13,9 +13,6 @@ function MainLayout() {
         {/* {isAuthRoute ? ( */}
         <nav
           className="auth-navbar "
-          style={{
-            background: "linear-gradient(462deg, #fdf2e3 51%, #ffd39c 70%)",
-          }}
         >
           <AuthNavbar />
         </nav>
