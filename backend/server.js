@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
@@ -7,7 +7,7 @@ const path = require("path");
 const multer = require("multer");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const cookieParser = require("cookie-parser")
+const cookieParser = require("cookie-parser");
 
 const { v4: uuidv4 } = require("uuid");
 const UserOrdersInfo = require("./models/UserOrdersInfo");
@@ -19,40 +19,48 @@ const Review = require("./models/Review");
 const ContactInfo = require("./models/ContactInfo");
 const userSignUpInfo = require("./models/signup");
 const AllProducts = require("./models/AllProduct");
-const AddProduct = require('./models/AddProduct');
-const Cart = require('./models/Cart');
+const AddProduct = require("./models/AddProduct");
+const Cart = require("./models/Cart");
 const generateShortId = () => crypto.randomBytes(4).toString("hex"); // 8-char unique ID
 const app = express();
 // Configure CORS
 const corsOptions = {
-  origin: ['http://localhost:5173', 'https://reto-india.onrender.com'],
+  origin: ["http://localhost:5173", "https://reto-india.onrender.com"],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true
+  credentials: true,
 };
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(bodyParser.json());
-app.use(express.json())
+app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // MongoDB connection URIs
 const MONGO_URL = process.env.MONGO_URL;
 mongoose
   .connect(MONGO_URL)
-  .then(() => { console.log("connected to reto_india DB") })
-  .catch((err) => { console.log("Error in connecting DB : ", err) });
-const ProductViewModel = mongoose.model('ProductView', ProductView.schema);
-const ReviewModel = mongoose.model('Review', Review.schema);
-const ContactInfoModel = mongoose.model('ContactInfo', ContactInfo.schema);
-const AllProductsModel = mongoose.model('AllProducts', AllProducts.schema);
+  .then(() => {
+    console.log("connected to reto_india DB");
+  })
+  .catch((err) => {
+    console.log("Error in connecting DB : ", err);
+  });
+const ProductViewModel = mongoose.model("ProductView", ProductView.schema);
+const ReviewModel = mongoose.model("Review", Review.schema);
+const ContactInfoModel = mongoose.model("ContactInfo", ContactInfo.schema);
+const AllProductsModel = mongoose.model("AllProducts", AllProducts.schema);
 const authMiddleware = (req, res, next) => {
   const token = req.cookies.token;
-  if (!token) return res.status(401).json({ message: "Unauthorized - No token provided" });
+  if (!token)
+    return res
+      .status(401)
+      .json({ message: "Unauthorized - No token provided" });
 
   jwt.verify(token, "rupesh", (err, decoded) => {
-    if (err) return res.status(403).json({ message: "Forbidden - Invalid token" });
+    if (err)
+      return res.status(403).json({ message: "Forbidden - Invalid token" });
     req.user = decoded;
     next();
   });
@@ -60,15 +68,15 @@ const authMiddleware = (req, res, next) => {
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/');
+    cb(null, "uploads/");
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname));
-  }
+  },
 });
 
 const upload = multer({ storage: storage });
-app.get('/Product', async (req, res) => {
+app.get("/Product", async (req, res) => {
   try {
     const product = await AddProduct.find();
     res.json(product);
@@ -80,7 +88,7 @@ app.get('/Product', async (req, res) => {
 // Razorpay instance
 const razorpay = new Razorpay({
   key_id: "rzp_test_xxDux3IIvlBSYN",
-  key_secret: "XIxKbKjgBPr6hp8499mq1n50"
+  key_secret: "XIxKbKjgBPr6hp8499mq1n50",
 });
 
 // Create Order Route
@@ -90,7 +98,7 @@ app.post("/create-order", async (req, res) => {
     const options = {
       amount: amount * 100, // Convert to paisa
       currency,
-      receipt: `order_rcptid_${Date.now()}`
+      receipt: `order_rcptid_${Date.now()}`,
     };
     const order = await razorpay.orders.create(options);
     res.status(200).json(order);
@@ -103,8 +111,10 @@ app.post("/create-order", async (req, res) => {
 // Verify Payment Route
 app.post("/verify-payment", async (req, res) => {
   try {
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
-    const generated_signature = crypto.createHmac("sha256", "XIxKbKjgBPr6hp8499mq1n50")
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+      req.body;
+    const generated_signature = crypto
+      .createHmac("sha256", "XIxKbKjgBPr6hp8499mq1n50")
       .update(razorpay_order_id + "|" + razorpay_payment_id)
       .digest("hex");
 
@@ -140,7 +150,12 @@ app.post("/auth/signup", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // Save the new user with phoneNo
-    const newUser = new userSignUpInfo({ fullName, email, password: hashedPassword, phoneNo });
+    const newUser = new userSignUpInfo({
+      fullName,
+      email,
+      password: hashedPassword,
+      phoneNo,
+    });
     await newUser.save();
 
     // Generate JWT token with userId and email
@@ -172,7 +187,9 @@ app.post("/auth/login", async (req, res) => {
     // Validate input
     if (!email || !password) {
       console.log("Email or password missing"); // Debugging
-      return res.status(400).json({ message: "Email and password are required" });
+      return res
+        .status(400)
+        .json({ message: "Email and password are required" });
     }
 
     // Check if user exists
@@ -211,6 +228,8 @@ app.post("/auth/logout", (req, res) => {
   res.status(200).json({ message: "Logout successful" });
 });
 
+
+
 app.get("/api/track-order", async (req, res) => {
   const { orderId, email } = req.query;
 
@@ -219,7 +238,10 @@ app.get("/api/track-order", async (req, res) => {
   }
 
   // ✅ Correct Query: Find order by email & cartItems.itemId
-  const order = await UserOrdersInfo.findOne({ email, "cartItems.itemId": orderId });
+  const order = await UserOrdersInfo.findOne({
+    email,
+    "cartItems.itemId": orderId,
+  });
 
   if (!order) {
     return res.status(404).json({ message: "Order not found" });
@@ -233,30 +255,36 @@ app.get("/api/track-order", async (req, res) => {
     status: item.Status,
     title: item.title,
     price: item.price,
-    trackLocations: item.trackLocations
+    trackLocations: item.trackLocations,
   });
 });
+
+
 app.post("/checkout", async (req, res) => {
   try {
     const { cartItems, ...rest } = req.body;
 
-
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({ message: "Unauthorized: No token provided" });
+      return res
+        .status(401)
+        .json({ message: "Unauthorized: No token provided" });
     }
 
     const token = authHeader.split(" ")[1];
     if (!token) {
-      return res.status(401).json({ message: "Unauthorized: Invalid token format" });
+      return res
+        .status(401)
+        .json({ message: "Unauthorized: Invalid token format" });
     }
-
 
     let decoded;
     try {
       decoded = jwt.verify(token, "rupesh");
     } catch (err) {
-      return res.status(401).json({ message: "Unauthorized: Invalid or expired token" });
+      return res
+        .status(401)
+        .json({ message: "Unauthorized: Invalid or expired token" });
     }
 
     const userId = decoded.userId;
@@ -267,10 +295,9 @@ app.post("/checkout", async (req, res) => {
 
     const updatedCartItems = cartItems.map((item) => ({
       ...item,
-      itemId: crypto.randomBytes(4).toString('hex'),
+      itemId: crypto.randomBytes(4).toString("hex"),
       image1: item.image1,
     }));
-
 
     const newOrder = new UserOrdersInfo({
       ...rest,
@@ -283,7 +310,9 @@ app.post("/checkout", async (req, res) => {
     res.status(200).json({ message: "Order placed successfully!" });
   } catch (error) {
     console.error("Error placing order:", error);
-    res.status(500).json({ message: "Error placing order", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error placing order", error: error.message });
   }
 });
 
@@ -309,6 +338,35 @@ const authenticateUser = (req, res, next) => {
     return res.status(401).json({ message: "Invalid token" });
   }
 };
+
+app.post("/save-cart", authenticateUser, async (req, res) => {
+  try {
+    const { items } = req.body;
+
+    const cart = await Cart.findOneAndUpdate(
+      { userId: req.user.userId },
+      { $set: { items } },
+      { new: true, upsert: true }
+    );
+
+    res.json(cart.items);
+  } catch (error) {
+    console.error("Error saving cart:", error);
+    res.status(500).json({ error: "Error saving cart" });
+  }
+});
+
+// Same for the load-cart endpoint
+app.get("/load-cart", authenticateUser, async (req, res) => {
+  try {
+    const cart = await Cart.findOne({ userId: req.user.userId });
+    res.json(cart?.items || []);
+  } catch (error) {
+    console.error("Error loading cart:", error);
+    res.status(500).json({ error: "Error loading cart" });
+  }
+});
+
 app.get("/OrderPage", authenticateUser, async (req, res) => {
   try {
     const orders = await UserOrdersInfo.find({ userId: req.user.userId }); // Only fetch orders for logged-in user
@@ -318,7 +376,7 @@ app.get("/OrderPage", authenticateUser, async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
-app.get('/Review', async (req, res) => {
+app.get("/Review", async (req, res) => {
   try {
     const reviews = await ReviewModel.find();
     res.json(reviews);
@@ -334,10 +392,12 @@ app.get("/product", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: "Error fetching products" });
   }
-})
-app.get('/product/:productId', async (req, res) => {
+});
+app.get("/product/:productId", async (req, res) => {
   try {
-    const product = await ProductViewModel.findById({ productId: req.params.productId });
+    const product = await ProductViewModel.findById({
+      productId: req.params.productId,
+    });
     console.log(req.params);
     res.json(product);
   } catch (error) {
@@ -345,7 +405,7 @@ app.get('/product/:productId', async (req, res) => {
     res.status(500).json({ error: "Error fetching product" });
   }
 });
-app.post('/ContactInfo', async (req, res) => {
+app.post("/ContactInfo", async (req, res) => {
   const { name, email, PhoneNo, Message } = req.body;
   console.log("info received:");
 
@@ -363,64 +423,26 @@ app.post('/ContactInfo', async (req, res) => {
     res.status(500).json({ error: "Failed to add contactInfo" });
   }
 });
-app.post('/ReviewText', upload.single('image'), async (req, res) => {
+app.post("/ReviewText", upload.single("image"), async (req, res) => {
   const reviewData = req.body;
-  console.log('Received the review data:', reviewData);
+  console.log("Received the review data:", reviewData);
 
   try {
     const newReview = await ReviewModel.create({
       name: reviewData.name,
       Rating: reviewData.Rating,
       Reviews: reviewData.Reviews,
-      image: req.file ? path.posix.join('/uploads', req.file.filename) : null
+      image: req.file ? path.posix.join("/uploads", req.file.filename) : null,
     });
-    res.json({ message: 'Review added successfully', newReview });
+    res.json({ message: "Review added successfully", newReview });
   } catch (error) {
     console.error("Error while adding review:", error);
     res.status(500).json({ error: "Failed to add review" });
   }
 });
 
-// Get user's cart
-app.get("/cart", authenticateUser, async (req, res) => {
-  try {
-    const cart = await Cart.findOne({ userId: req.user.userId });
-    res.json(cart?.items || []);
-  } catch (error) {
-    res.status(500).json({ error: "Error fetching cart" });
-  }
-});
-
-// Update cart
-app.post("/cart", authenticateUser, async (req, res) => {
-  try {
-    const { items } = req.body;
-    
-    const cart = await Cart.findOneAndUpdate(
-      { userId: req.user.userId },
-      { $set: { items } },
-      { new: true, upsert: true }
-    );
-    
-    res.json(cart.items);
-  } catch (error) {
-    res.status(500).json({ error: "Error updating cart" });
-  }
-});
-
-// Clear cart
-app.delete("/cart", authenticateUser, async (req, res) => {
-  try {
-    await Cart.deleteOne({ userId: req.user.userId });
-    res.json({ message: "Cart cleared" });
-  } catch (error) {
-    res.status(500).json({ error: "Error clearing cart" });
-  }
-});
-
-
 // Server listen
 const PORT = 5000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running at http://localhost:${PORT}`);
 });
