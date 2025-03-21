@@ -54,7 +54,7 @@ const AboutPage = () => {
       </section>
 
       {/* Cards Section */}
-      <section className="cards-section">
+      <section className="cards-section container mx-auto">
         <div className="card">
           <img src={SecondImage} alt="Traditional Art" />
           <h3>Preserving Traditional Art and Craft</h3>

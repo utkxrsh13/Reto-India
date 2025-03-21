@@ -20,6 +20,7 @@ const ContactInfo = require("./models/ContactInfo");
 const userSignUpInfo = require("./models/signup");
 const AllProducts = require("./models/AllProduct");
 const AddProduct = require('./models/AddProduct');
+const Cart = require('./models/Cart');
 const generateShortId = () => crypto.randomBytes(4).toString("hex"); // 8-char unique ID
 const app = express();
 // Configure CORS
@@ -379,6 +380,45 @@ app.post('/ReviewText', upload.single('image'), async (req, res) => {
     res.status(500).json({ error: "Failed to add review" });
   }
 });
+
+// Get user's cart
+app.get("/cart", authenticateUser, async (req, res) => {
+  try {
+    const cart = await Cart.findOne({ userId: req.user.userId });
+    res.json(cart?.items || []);
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching cart" });
+  }
+});
+
+// Update cart
+app.post("/cart", authenticateUser, async (req, res) => {
+  try {
+    const { items } = req.body;
+    
+    const cart = await Cart.findOneAndUpdate(
+      { userId: req.user.userId },
+      { $set: { items } },
+      { new: true, upsert: true }
+    );
+    
+    res.json(cart.items);
+  } catch (error) {
+    res.status(500).json({ error: "Error updating cart" });
+  }
+});
+
+// Clear cart
+app.delete("/cart", authenticateUser, async (req, res) => {
+  try {
+    await Cart.deleteOne({ userId: req.user.userId });
+    res.json({ message: "Cart cleared" });
+  } catch (error) {
+    res.status(500).json({ error: "Error clearing cart" });
+  }
+});
+
+
 // Server listen
 const PORT = 5000;
 app.listen(PORT, () => {
