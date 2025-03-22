@@ -106,8 +106,9 @@ const CartPage = () => {
                         >
                           <td className="md:px-4 py-4 px-0  flex items-center max-md:w-full max-md:justify-between">
                             <img
-                              src={`https://reto-india-admin-backend.onrender.com${item.image1}`}
+                              src={item.image1}
                               alt={item.title}
+                              loading="lazy"
                               className="w-16 h-16 object-cover rounded-md mr-4"
                             />
                             <div>

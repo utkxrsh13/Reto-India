@@ -130,8 +130,9 @@ const OrderPage = () => {
                         <td className="md:px-4 py-4 px-0 flex items-center max-md:w-full max-md:justify-between">
                           <div className="flex items-center">
                             <img
-                              src={`https://reto-india-admin-backend.onrender.com${cartItem.image1}`}
+                              src={cartItem.image1}
                               alt={cartItem.title}
+                              loading="lazy"
                               className="w-16 h-16 object-cover rounded-md mr-4"
                             />
                             <h3 className="text-sm font-medium text-gray-800">

@@ -124,10 +124,11 @@ const ProductPage = () => {
               >
                 <NavLink to={`/product/${product._id}`} state={{ product }}>
                   <img
-                    src={`https://reto-india-admin-backend.onrender.com${product.image1}`}
+                    src={product.image1}
                     alt={product.title}
                     className="h-full w-full mx-auto object-cover rounded-xl group-hover:scale-105 duration-300 ease-linear"
                     style={{ height: "450px", width: "100%" }}
+                    loading="lazy"
                   />
                 </NavLink>
 

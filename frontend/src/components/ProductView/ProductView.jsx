@@ -66,9 +66,10 @@ const ProductView = () => {
             {[product.image1, product.image2, product.image3, product.image4, product.image5].map((img, index) => (
               <div key={index} className="ProdSection flex justify-center items-center">
                 <img
-                  src={`https://reto-india-admin-backend.onrender.com${img}`}
+                  src={img}
                   alt={`product-${index}`}
                   className="w-full h-full object-cover rounded p-2"
+                  loading="lazy"
                 />
               </div>
             ))}
