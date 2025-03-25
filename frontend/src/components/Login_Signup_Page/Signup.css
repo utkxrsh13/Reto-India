@@ -35,10 +35,33 @@
   width: 100%;
 }
 
-.input-field button {
-  position: absolute;
-  top: 51.5%;
-  left: 72.5%;
+.password-input-container {
+  display: flex;
+  align-items: center;
+  border: 1px solid #dbdbdb; /* Match the input field border */
+  border-radius: 4px; /* Match the input field border radius */
+  padding-right: 10px; /* Add padding to the right for the icon */
+  background-color: #fff; /* Match the input field background */
+}
+
+.password-input-container .input {
+  flex: 1;
+  border: none; /* Remove the input field border */
+  outline: none; /* Remove the default focus outline */
+  padding: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.password-input-container .IconButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666; /* Adjust the color of the icon */
 }
 
 /* Full background styling for the modal-like effect */
@@ -64,7 +87,6 @@
   gap: 0.5rem;
   position: relative;
   height: 130vh;
-  /* background: linear-gradient(462deg, #fdf2e3 51%, #ffd39c 70%); */
 }
 
 .ca-signup-container .heading-text {
@@ -76,7 +98,23 @@
   text-align: center;
 }
 
+.full-screen-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.9); /* Light overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100000;
+}
 
+.full-screen-animation {
+  width: 300px;
+  height: 300px;
+}
 
 .already-account {
   margin-top: 1rem;
@@ -91,6 +129,7 @@
     font-size: 2.5rem;
   }
 }
+
 .ca-signup-container .epilogue {
   font-family: "Epilogue", normal;
   margin-bottom: 30px;
@@ -106,10 +145,8 @@
   .ca-signup-container .subtitle-text {
     font-size: 1.25rem;
   }
-  .input-field button {
-    top: 51.5%;
-  }
 }
+
 .ca-signup-container .signup-card {
   width: 60%;
   border-radius: 16px;
@@ -124,17 +161,15 @@
   .ca-signup-container .signup-card {
     width: 50%;
   }
-  .input-field button {
-    top: 65%;
-    left: 64%;
-  }
 }
+
 @media screen and (max-width: 865px) {
   .ca-signup-container .signup-card {
     margin-top: 6rem;
     width: 70%;
   }
 }
+
 @media screen and (max-width: 768px) {
   .ca-signup-container .signup-card .card-content {
     padding: 2rem;
@@ -148,11 +183,8 @@
   .ca-signup-container .heading-text {
     font-size: 1.8rem;
   }
-  .input-field button {
-    top: 62.5%;
-    left: 69%;
-  }
 }
+
 .ca-signup-container .signup-card .card-content .signup-content .signup-btn-border {
   font-family: "Inter", Sans-serif;
   font-size: 18px;
@@ -225,6 +257,7 @@
     padding: 15px 20px 15px 20px !important;
   }
 }
+
 .show-error-message-below {
   position: relative !important;
 }
@@ -261,10 +294,6 @@
   .ca-signup-container .signup-card {
     width: 90%;
   }
-  .input-field button {
-    left: 75%;
-    top: 56.5%;
-  }
   .ca-signup-container {
     padding-top: 0px;
   }
@@ -285,6 +314,7 @@
     font-size: 16px;
   }
 }
+
 @media screen and (max-width: 325px) {
   .nav-container-auth {
     padding: 10px 14px 10px 14px;
@@ -299,8 +329,4 @@
   .input {
     font-size: 1rem;
   }
-  .input-field button {
-    top: 57%;
-    left: 74%;
-  }
-}/*# sourceMappingURL=signup.css.map */
+}
