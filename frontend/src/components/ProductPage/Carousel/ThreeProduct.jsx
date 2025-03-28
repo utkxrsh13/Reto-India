@@ -119,7 +119,7 @@ const MainCarousel = ({trendingProduct}) => {
               {/* Hover Effects */}
               <div className="absolute top-2 right-2 flex gap-2"></div>
               <div className="absolute w-full h-16 text-black bottom-0 left-0 bg-orange-300 opacity-90 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out flex items-center justify-between px-3">
-                <button className="py-2 font-semibold" onClick={handleBuyNow}>Buy Now</button>
+                <button className="py-2 font-semibold" onClick={() => handleBuyNow(image)}>Buy Now</button>
                 <div className="flex gap-2">
                   <IoEyeOutline className="cursor-pointer w-7 h-7" />
                   <IoCartOutline

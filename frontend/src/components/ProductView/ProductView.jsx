@@ -111,9 +111,9 @@ const ProductView = () => {
               </div>
 
               <div className="BtnBar">
-                <button onClick={handleAddToCart}>Add to Cart</button>
+                <button onClick={() => handleAddToCart(product)}>Add to Cart</button>
                 {/* <NavLink to="/checkout"> */}
-                  <button onClick={handleBuyNow}>Buy Now</button>
+                  <button onClick={() => handleBuyNow(product)}>Buy Now</button>
                 {/* </NavLink> */}
               </div>
             </div>
