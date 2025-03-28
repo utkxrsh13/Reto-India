@@ -11,9 +11,9 @@ const store = configureStore({
 });
 
 // Subscribe to store changes and save the cart state to localStorage
-store.subscribe(() => {
-  const state = store.getState();
-  localStorage.setItem("cart", JSON.stringify(state.cart));
-});
+// store.subscribe(() => {
+//   const state = store.getState();
+//   localStorage.setItem("cart", JSON.stringify(state.cart));
+// });
 
 export default store;
