@@ -102,7 +102,6 @@ const ProductView = () => {
               </SwiperSlide>
             ))}
           </Swiper>
-
         </div>
 
         <div className="product-details-section">

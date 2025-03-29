@@ -4,6 +4,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import TitleUpdater from "../src/components/Title_Updater/title_updater";
 import MainLayout from "./components/Layout/MainLayout";
 import CartPersistence from "./components/CartPage/CartPersistence";
+import { AuthProvider } from "./Context/AuthContext";
 
 const LandingPage = lazy(() => import("./components/LandingPage/LandingPage"));
 const AboutUs = lazy(() => import("./components/About/AboutUs"));
@@ -29,6 +30,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
+        <AuthProvider>
         <TitleUpdater />
         <CartPersistence/>
         <Suspense fallback={<div className="text-center mt-10">Loading...</div>}>
@@ -56,6 +58,7 @@ function App() {
             </Route>
           </Routes>
         </Suspense>
+        </AuthProvider>
       </Router>
     </QueryClientProvider>
   );

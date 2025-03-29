@@ -4,7 +4,7 @@ import { AiFillStar } from "react-icons/ai";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { IoCartOutline, IoEyeOutline } from "react-icons/io5";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import Slider from "react-slick";
 import { toast, ToastContainer } from "react-toastify";
 import "slick-carousel/slick/slick-theme.css";
@@ -122,16 +122,15 @@ const ProductPage = () => {
           {products.map((product) => (
             <div key={product._id} className="p-[5px] overflow-hidden w-full mx-auto cursor-pointer rounded-xl relative group">
               {/* Product Image */}
-              <div 
-                className="w-full h-[450px]"
-                onClick={() => handleViewProduct(product)}
-              >
-                <img
-                  src={product.image1}
-                  alt={product.title}
-                  className="w-full h-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-300 ease-out"
-                  loading="lazy"
-                />
+              <div className="w-full h-[450px]">
+                <NavLink to={`/product/${product._id}`} state={{ product }}>
+                  <img
+                    src={product.image1}
+                    alt={product.title}
+                    className="w-full h-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-300 ease-out"
+                    loading="lazy"
+                  />
+                </NavLink>
               </div>
 
               {/* Action Buttons */}
@@ -143,11 +142,12 @@ const ProductPage = () => {
                   Buy Now
                 </button>
                 <div className="flex gap-3">
-                  <IoEyeOutline 
-                    className="w-6 h-6 hover:text-white transition-colors cursor-pointer"
-                    onClick={() => handleViewProduct(product)}
-                    aria-label="View details"
-                  />
+                  <NavLink to={`/product/${product._id}`} state={{ product }}>
+                    <IoEyeOutline 
+                      className="w-6 h-6 hover:text-white transition-colors cursor-pointer"
+                      aria-label="View details"
+                    />
+                  </NavLink>
                   <IoCartOutline
                     className="w-6 h-6 hover:text-white transition-colors cursor-pointer"
                     onClick={() => handleAddToCart(product)}

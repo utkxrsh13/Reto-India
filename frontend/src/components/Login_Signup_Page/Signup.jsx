@@ -12,7 +12,7 @@ import LottieAnimation from "../LottieAnimation/LottieAnimation";
 import ArtisticAnimation from "../../Lottie/Animation_artistic_3.json";
 
 const Signup = () => {
-  const { login } = useAuth();
+  const {login} = useAuth();
   const navigate = useNavigate();
   const [user, setUser] = useState({
     fullName: "",
@@ -87,6 +87,10 @@ const Signup = () => {
     setShowAnimation(true);
     console.log(user);
     mutate(user);
+  };
+
+  const handleGoogleSignup = () => {
+    window.location.href = "https://reto-india-backend.onrender.com/auth/google";
   };
 
   return (
@@ -169,7 +173,7 @@ const Signup = () => {
               <div className="divider-wrapper mt-4 mb-4">
                 <span>OR</span>
               </div>
-              <button className="button signup-btn-border" type="button">
+              <button className="button signup-btn-border" type="button" onClick={handleGoogleSignup}>
                 <i className="icon icon-google"></i>
                 Sign up with Google →
               </button>
