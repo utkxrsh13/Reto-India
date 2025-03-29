@@ -1,12 +1,17 @@
+import { useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { FreeMode, Navigation, Thumbs, Zoom } from 'swiper/modules';
 import StarRateIcon from "@mui/icons-material/StarRate";
-import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick-theme.css";
-import "slick-carousel/slick/slick.css";
-import "./Product.css";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../Redux/CartSlice";
+import 'swiper/css';
+import 'swiper/css/free-mode';
+import 'swiper/css/navigation';
+import 'swiper/css/thumbs';
+import 'swiper/css/zoom';
+import './Product.css';
 
 const ProductView = () => {
   const { productId } = useParams();
@@ -14,18 +19,8 @@ const ProductView = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { product } = location.state || {};
-  console.log(productId);
-
-  const sliderSettings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: true,
-    nextArrow: <div style={{ fontSize: "30px", right: "10px"}}>&#9654;</div>,
-    prevArrow: <div style={{ fontSize: "30px", left: "10px" }}>&#9664;</div>,
-  };
+  const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  const [zoomActive, setZoomActive] = useState(false);
 
   const handleAddToCart = () => {
     const authToken = localStorage.getItem("authToken");
@@ -34,9 +29,7 @@ const ProductView = () => {
       navigate("/auth/signup");
       return;
     }
-
-    console.log("Product added to cart:", product);
-    toast("Item added Successfully");
+    toast.success("Item added to cart!");
     dispatch(addToCart(product));
   };
 
@@ -47,83 +40,115 @@ const ProductView = () => {
       navigate("/auth/signup");
       return;
     }
-    
-    // Add to cart first (so it appears on checkout)
     dispatch(addToCart(product));
-    
-    // Then navigate to checkout
-  // Use a timeout to ensure Redux state updates before navigating
-  setTimeout(() => {
-    navigate("/checkout");
-  }, 300);
+    setTimeout(() => navigate("/checkout"), 300);
   };
 
   return (
-    <div className="MainPage">
-      <div className="ProductPage">
-        <div className="ProdSection">
-          <Slider {...sliderSettings}>
-            {[product.image1, product.image2, product.image3, product.image4, product.image5].map((img, index) => (
-              <div key={index} className="ProdSection flex justify-center items-center">
+    <div className="product-view-container">
+      <ToastContainer 
+        position="bottom-right"
+        autoClose={2000}
+        hideProgressBar={true}
+        toastClassName="shadow-lg"
+      />
+      
+      <div className="product-view-wrapper">
+        <div className="image-gallery-section">
+          {/* Main Image Swiper */}
+          <Swiper
+            zoom={zoomActive}
+            navigation={{
+              nextEl: '.swiper-button-next',
+              prevEl: '.swiper-button-prev',
+            }}
+            thumbs={{ swiper: thumbsSwiper }}
+            modules={[FreeMode, Navigation, Thumbs, Zoom]}
+            className="main-image-swiper"
+          >
+            {[product.image1, product.image2, product.image3, product.image4, product.image5].filter(Boolean).map((img, i) => (
+              <SwiperSlide key={i}>
+                <div className="swiper-zoom-container">
+                  <img
+                    src={img}
+                    className={`product-main-image ${zoomActive ? 'cursor-zoom-out' : 'cursor-zoom-in'}`}
+                    onClick={() => setZoomActive(!zoomActive)}
+                    alt={`${product.title} - View ${i}`}
+                  />
+                </div>
+              </SwiperSlide>
+            ))}
+            <div className="swiper-button-next"></div>
+            <div className="swiper-button-prev"></div>
+          </Swiper>
+
+          {/* Thumbnail Swiper */}
+          <Swiper
+            onSwiper={setThumbsSwiper}
+            spaceBetween={10}
+            slidesPerView={4}
+            freeMode={true}
+            watchSlidesProgress={true}
+            modules={[FreeMode, Navigation, Thumbs]}
+            className="thumbnail-swiper"
+          >
+            {[product.image1, product.image2, product.image3, product.image4, product.image5].filter(Boolean).map((img, i) => (
+              <SwiperSlide key={i}>
                 <img
                   src={img}
-                  alt={`product-${index}`}
-                  className="w-full h-full object-cover rounded p-2"
-                  loading="lazy"
+                  className="thumbnail-image"
+                  alt={`Thumbnail ${i+1}`}
                 />
-              </div>
+              </SwiperSlide>
             ))}
-          </Slider>
+          </Swiper>
         </div>
 
-        <div className="content_section">
-          <div className="content">
-            <div id="header">
-              <div>
-                <div>
-                  <h1 className="content_heading">{product.title}</h1>
-                  <div className="rating">
-                    {Array.from({ length: 5 }, (_, i) => (
-                      <StarRateIcon
-                        key={i}
-                        className="RatingStar text-yellow-400"
-                      />
-                    ))}
-                    <p className="rating-text">
-                      4 (35)
-                    </p>
-                  </div>
-                </div>
-
-                <div>
-                  <h2>
-                    INR {product.price} ({product.discount_percentage}% off)
-                  </h2>
-                  <h2>Offer Price: INR {product.discounted_price}</h2>
-                </div>
-
-                <div>
-                  <h1 id="description">About this Gem</h1>
-                  <div className="prod_description">
-                    <p>{product.description}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="BtnBar">
-                <button onClick={() => handleAddToCart(product)}>Add to Cart</button>
-                {/* <NavLink to="/checkout"> */}
-                  <button onClick={() => handleBuyNow(product)}>Buy Now</button>
-                {/* </NavLink> */}
-              </div>
+        <div className="product-details-section">
+          <h1 className="product-title">{product.title}</h1>
+          
+          <div className="rating-section">
+            <div className="stars">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <StarRateIcon key={i} className="star-icon" />
+              ))}
             </div>
+            <span className="review-count">(35 reviews)</span>
+          </div>
+
+          <div className="price-section">
+            <span className="current-price">₹{product.discounted_price}</span>
+            {product.discount_percentage > 0 && (
+              <>
+                <span className="original-price">₹{product.price}</span>
+                <span className="discount-badge">
+                  {product.discount_percentage}% OFF
+                </span>
+              </>
+            )}
+          </div>
+
+          <div className="description-section">
+            <h2 className="section-title">About this Product</h2>
+            <p className="product-description">{product.description}</p>
+          </div>
+
+          <div className="action-buttons">
+            <button 
+              onClick={handleAddToCart}
+              className="add-to-cart-btn"
+            >
+              Add to Cart
+            </button>
+            <button 
+              onClick={handleBuyNow}
+              className="buy-now-btn"
+            >
+              Buy Now
+            </button>
           </div>
         </div>
       </div>
-
-      {/* <div>
-        <Review />
-      </div> */}
     </div>
   );
 };
