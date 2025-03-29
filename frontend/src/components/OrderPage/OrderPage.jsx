@@ -102,52 +102,87 @@ const OrderPage = () => {
               </div>
             ) : (
               <>
-                <div className="table-container">
-                  <table className="order-table">
-                    <thead>
-                      <tr className="border-b text-left">
-                        <th className="p-2">Product</th>
-                        <th className="p-2">Quantity</th>
-                        <th className="p-2">Price</th>
-                        <th className="p-2">Total</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {orders.map((order) =>
-                        order.cartItems.map((cartItem, index) => (
-                          <tr
-                            key={`${order._id}-${index}`}
-                            onClick={() => handleRowClick(cartItem)}
-                            className={selectedCartItem?._id === cartItem._id ? "selected-row" : ""}
-                          >
-                            <td className="px-4 py-4">
-                              <div className="product-cell">
-                                <img
-                                  src={cartItem.image1}
-                                  alt={cartItem.title}
-                                  className="product-image"
-                                />
-                                <h3 className="text-sm font-medium text-gray-800">
-                                  {cartItem.title}
-                                </h3>
-                              </div>
-                            </td>
-                            <td className="p-2 text-sm text-gray-700">
-                              Qty: {cartItem.quantity}
-                            </td>
-                            <td className="p-2 text-sm text-gray-700">
-                              ${cartItem.price}
-                            </td>
-                            <td className="p-2 text-sm text-gray-700">
-                              ${(cartItem.price * cartItem.quantity).toFixed(2)}
-                            </td>
-                          </tr>
-                        ))
-                      )}
-                    </tbody>
-                  </table>
+                {/* Desktop Table View */}
+                <div className="desktop-view">
+                  <div className="table-container">
+                    <table className="order-table">
+                      <thead>
+                        <tr className="border-b text-left">
+                          <th className="p-2">Product</th>
+                          <th className="p-2">Quantity</th>
+                          <th className="p-2">Price</th>
+                          <th className="p-2">Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {orders.map((order) =>
+                          order.cartItems.map((cartItem, index) => (
+                            <tr
+                              key={`${order._id}-${index}`}
+                              onClick={() => handleRowClick(cartItem)}
+                              className={selectedCartItem?._id === cartItem._id ? "selected-row" : ""}
+                            >
+                              <td className="px-4 py-4">
+                                <div className="product-cell">
+                                  <img
+                                    src={cartItem.image1}
+                                    alt={cartItem.title}
+                                    className="product-image"
+                                  />
+                                  <h3 className="text-sm font-medium text-gray-800">
+                                    {cartItem.title}
+                                  </h3>
+                                </div>
+                              </td>
+                              <td className="p-2 text-sm text-gray-700">
+                                {cartItem.quantity}
+                              </td>
+                              <td className="p-2 text-sm text-gray-700">
+                                ${cartItem.price}
+                              </td>
+                              <td className="p-2 text-sm text-gray-700 font-semibold">
+                                ${(cartItem.price * cartItem.quantity).toFixed(2)}
+                              </td>
+                            </tr>
+                          ))
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-                <div className="mt-6 text-center">
+
+                {/* Mobile Card View */}
+                <div className="mobile-view">
+                  {orders.map((order) =>
+                    order.cartItems.map((cartItem, index) => (
+                      <div 
+                        key={`mobile-${order._id}-${index}`}
+                        className="order-card"
+                        onClick={() => handleRowClick(cartItem)}
+                      >
+                        <div className="product-info">
+                          <img
+                            src={cartItem.image1}
+                            alt={cartItem.title}
+                            className="product-image"
+                          />
+                          <div className="product-details">
+                            <h3 className="product-title">{cartItem.title}</h3>
+                            <div className="price-info">
+                              <span>Qty: {cartItem.quantity}</span>
+                              <span>${cartItem.price}</span>
+                              <span className="total-price">
+                                ${(cartItem.price * cartItem.quantity).toFixed(2)}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+
+                <div className=" text-center">
                   <button
                     onClick={handleContinueShopping}
                     className="continue-shopping-btn"

@@ -10,6 +10,7 @@ const Home = () => {
   const [filteredProducts, setFilteredProducts] = useState([]); 
   const [trending, setTrending] = useState([]); 
   const [filteredTrending, setFilteredTrending] = useState([]); 
+  const [isLoading, setIsLoading] = useState(true); // Add loading state
 
   // 🟢 Fetch products from API
   const fetchProducts = async () => {
@@ -19,8 +20,10 @@ const Home = () => {
       );
       setProducts(response.data);
       setFilteredProducts(response.data);
+      setIsLoading(false);
     } catch (error) {
       console.error("Error fetching products:", error);
+      setIsLoading(false);
     }
   };
 
@@ -32,8 +35,10 @@ const Home = () => {
       );
       setTrending(response.data);
       setFilteredTrending(response.data);
+      setIsLoading(false);
     } catch (error) {
       console.error("Error fetching trending products:", error);
+      setIsLoading(false);
     }
   };
 
@@ -61,6 +66,13 @@ const Home = () => {
     setFilteredTrending(filteredTrend);
   }, [searchItems, products, trending]);
 
+  // Loader component
+  const Loader = () => (
+    <div className="flex justify-center items-center py-10">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+    </div>
+  );
+
   return (
     <div className="background pt-[30px] md:pt-[50px] lg:pt-[30px] bg-cover bg-no-repeat bg-center min-h-lvh space-y-10 custom-padding"
   style={{paddingBottom: "4rem"}} 
@@ -81,16 +93,23 @@ const Home = () => {
         </div>
       </div>
 
-      {/* No Results Message */}
-      {filteredProducts.length === 0 && filteredTrending.length === 0 ? (
-        <p className="text-center text-red-500 text-lg font-semibold">
-          No Product Found
-        </p>
+      {/* Show loader when data is loading */}
+      {isLoading ? (
+        <Loader />
       ) : (
         <>
-          {/* ✅ Product Carousels */}
-          <MainCarousel trendingProduct={filteredTrending} />
-          <ProductPage products={filteredProducts} />
+          {/* Show "No Product Found" only after loading is complete and there are no products */}
+          {filteredProducts.length === 0 && filteredTrending.length === 0 ? (
+            <p className="text-center text-red-500 text-lg font-semibold">
+              No Product Found
+            </p>
+          ) : (
+            <>
+              {/* ✅ Product Carousels */}
+              <MainCarousel trendingProduct={filteredTrending} />
+              <ProductPage products={filteredProducts} />
+            </>
+          )}
         </>
       )}
     </div>
