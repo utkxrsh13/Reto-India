@@ -24,13 +24,10 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logout();
-    // dispatch(resetCart()); // Reset cart in Redux
-    // localStorage.removeItem("cart"); // Clear cart from localStorage
     navigate("/");
-    setIsOpen(false); // Close navbar after logout
+    setIsOpen(false);
   };
 
-  // ✅ Function to close navbar on link click
   const handleNavLinkClick = () => {
     setIsOpen(false);
   };
@@ -42,66 +39,102 @@ const Navbar = () => {
         <div className={`nav-container-auth ${isOpen ? "open" : ""}`}>
           <div className="logo-auth">
             <NavLink to="/" onClick={handleNavLinkClick}>
-              <img src="/img/LogoWoBcg.png" alt="Reto Logo" width="60px" />
+              <img 
+                src="/img/LogoWoBcg.png" 
+                alt="Reto Logo" 
+                className="logo-img"
+              />
             </NavLink>
           </div>
+          
           <div className="nav-menu">
             <div className="nav-group">
               <ul>
                 <li>
-                  <NavLink className="nav-links ho-nv" to="/" onClick={handleNavLinkClick}>
+                  <NavLink 
+                    className="nav-link" 
+                    to="/" 
+                    onClick={handleNavLinkClick}
+                  >
                     Home
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink className="nav-links" to="/product" onClick={handleNavLinkClick}>
+                  <NavLink 
+                    className="nav-link" 
+                    to="/product" 
+                    onClick={handleNavLinkClick}
+                  >
                     Products
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink className="nav-links ab-ut" to="/about" onClick={handleNavLinkClick}>
+                  <NavLink 
+                    className="nav-link" 
+                    to="/about" 
+                    onClick={handleNavLinkClick}
+                  >
                     About Us
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink className="nav-links co-tc" to="/contact" onClick={handleNavLinkClick}>
+                  <NavLink 
+                    className="nav-link" 
+                    to="/contact" 
+                    onClick={handleNavLinkClick}
+                  >
                     Contact Us
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink className="nav-links tr-k" to="/tracking" onClick={handleNavLinkClick}>
+                  <NavLink 
+                    className="nav-link" 
+                    to="/tracking" 
+                    onClick={handleNavLinkClick}
+                  >
                     Track Order
                   </NavLink>
                 </li>
-                <li>
+                <li className="cart-link">
                   <NavLink to="/cartPage" onClick={handleNavLinkClick}>
-                    <div className="rounded-full relative">
-                      <FaCartShopping className="text-xl cursor-pointer cart-icon" />
-                      <p className="absolute -top-3 -right-3 text-lg text-red-600">
-                        {totalQuantity}
-                      </p>
+                    <div className="cart-icon-container">
+                      <FaCartShopping className="cart-icon" />
+                      {totalQuantity > 0 && (
+                        <span className="cart-badge">{totalQuantity}</span>
+                      )}
                     </div>
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink className="nav-links lo-gin" to="/orderPage" onClick={handleNavLinkClick}>
+                  <NavLink 
+                    className="nav-link" 
+                    to="/orderPage" 
+                    onClick={handleNavLinkClick}
+                  >
                     My Orders
                   </NavLink>
                 </li>
                 {isLoggedIn ? (
                   <li>
-                    <button className="nav-links lo-gin" onClick={handleLogout}>
+                    <button 
+                      className="nav-link logout-btn" 
+                      onClick={handleLogout}
+                    >
                       Logout
                     </button>
                   </li>
                 ) : null}
                 {isLoggedIn ? (
-                  <li className="last">
-                    <p className="header-cta ct-abtn">👤 {fullName}</p>
+                  <li className="user-greeting">
+                    <span className="user-name">👤 {fullName}</span>
                   </li>
                 ) : (
-                  <li className="last">
-                    <NavLink className="header-cta ct-abtn" to="/auth/login" onClick={handleNavLinkClick}>
+                  <li>
+                    <NavLink 
+                      className="cta-btn" 
+                      to="/auth/login" 
+                      onClick={handleNavLinkClick}
+                    >
                       GET STARTED
                     </NavLink>
                   </li>
@@ -110,20 +143,16 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* ✅ Hamburger Menu Toggle */}
-          <div className="res-nav" onClick={() => setIsOpen(!isOpen)}>
-            <span>☰</span>
-          </div>
-
-          {/* ✅ Close Menu Button */}
-          <div className="close-nav" onClick={() => setIsOpen(false)}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path
-                fillRule="evenodd"
-                d="M10 8.293l3.707-3.707a1 1 0 111.414 1.414L11.414 9.707l3.707 3.707a1 1 0 11-1.414 1.414L10 11.121l-3.707 3.707a1 1 0 11-1.414-1.414L8.586 9.707 4.879 6a1 1 0 111.414-1.414L10 8.293z"
-              />
-            </svg>
-          </div>
+          {/* Mobile menu toggle */}
+          <button 
+            className={`hamburger ${isOpen ? "open" : ""}`} 
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle menu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
         </div>
       </nav>
     </>
