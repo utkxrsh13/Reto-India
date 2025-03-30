@@ -18,8 +18,8 @@ const SuccessPage = () => {
     }
 
     return (
-        <div className="flex justify-center items-center h-screen bg-gradient-to-r from-[#fdf2e3] via-[#fcd5a5] to-[#ffd39c]">
-            <div className="bg-white p-6 rounded-lg shadow-lg text-center w-3/4">
+        <div className="flex justify-center mt-10 h-auto bg-gradient-to-r from-[#fdf2e3] via-[#fcd5a5] to-[#ffd39c]">
+            <div className="bg-white p-6 rounded-lg shadow-lg text-center w-3/4  mt-0">
                 <h2 className="text-2xl font-bold text-green-600">Payment Successful! ✅</h2>
                 <p className="mt-4 text-lg">Thank you for your purchase.</p>
 
@@ -49,7 +49,7 @@ const SuccessPage = () => {
                         <tbody>
                             {paymentData.cartItems.map((item, index) => (
                                 <tr key={index} className="border">
-                                    <td className="p-2 border">{item.name}</td>
+                                    <td className="p-2 border">{item.title}</td>
                                     <td className="p-2 border">{item.quantity}</td>
                                     <td className="p-2 border">₹{item.price * item.quantity}</td>
                                 </tr>
